@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, vars, ... }:
 
 {
   virtualisation.docker = {
@@ -16,7 +16,7 @@
     };
   };
 
-  users.groups.docker.members = [ "${username}" ];
+  users.groups.docker.members = [ "${vars.username}" ];
 
   environment.systemPackages = with pkgs; [
     docker

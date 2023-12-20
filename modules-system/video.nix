@@ -1,4 +1,4 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, vars, ... }:
 {
   hardware = {
     opengl = {
@@ -14,7 +14,7 @@
     };
   };
 
-  users.groups."video".members = [ "${username}" ];
+  users.groups."video".members = [ "${vars.username}" ];
 
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback # screen sharing

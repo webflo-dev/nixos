@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, vars, ... }:
 {
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -11,7 +11,7 @@
     wireplumber.enable = true;
   };
 
-  users.groups."audio".members = [ "${username}" ];
+  users.groups."audio".members = [ "${vars.username}" ];
 
 
   environment.etc = {

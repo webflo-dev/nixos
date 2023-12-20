@@ -9,19 +9,24 @@
 
   outputs = { nixpkgs, ... } @ inputs:
     {
-      nixosConfigurations = {
-        xps13 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
+      nixosConfigurations =
+        let
+          vars = {
+            system = "x86_64-linux";
             hostname = "xps13";
             username = "florent";
           };
-          modules =
-            [
+        in
+        {
+          xps13 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              inherit inputs vars;
+            };
+            modules = [
               ./hosts/xps13/system.nix
             ];
+          };
         };
-      };
     };
 }

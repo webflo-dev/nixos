@@ -1,4 +1,4 @@
-{ config, pkgs, hostname, username, ... }:
+{ config, pkgs, vars, ... }:
 
 {
   imports = [
@@ -31,11 +31,11 @@
   };
 
   networking = {
-    hostName = hostname;
+    hostName = vars.hostname;
     networkmanager.enable = true;
   };
 
-  users.users.${username} = {
+  users.users.${vars.username} = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;

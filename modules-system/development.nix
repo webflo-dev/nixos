@@ -1,8 +1,8 @@
-{ username, ... }:
+{ vars, ... }:
 {
   security.pam.loginLimits = [
     {
-      domain = "${username}";
+      domain = "${vars}";
       type = "soft";
       item = "nofile";
       value = "8192";
