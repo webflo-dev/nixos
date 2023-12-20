@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/system/agenix.nix
     ../../modules/system/bluetooth.nix
     ../../modules/system/cli-tools.nix
     ../../modules/system/development.nix
