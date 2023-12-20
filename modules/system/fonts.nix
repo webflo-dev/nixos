@@ -25,12 +25,29 @@
       };
 
       defaultFonts = {
-        serif = [ "Luciole" "Noto Color Emoji" "Symbols Nerd Font" ];
-        sansSerif = [ "Luciole" "Noto Color Emoji" "Symbols Nerd Font" ];
-        monospace = [ "Fira Code" "Noto Color Emoji" "Symbols Nerd Font" ];
-        emoji = [ "Noto Color Emoji" ];
+        serif = [
+          "Luciole"
+          "Noto Color Emoji"
+          "Symbols Nerd Font"
+        ];
+        sansSerif = [
+          "Luciole"
+          "Noto Color Emoji"
+          "Symbols Nerd Font"
+        ];
+        monospace = [
+          "Fira Code"
+          "Noto Color Emoji"
+          "Symbols Nerd Font"
+        ];
+        emoji = [
+          "Noto Color Emoji"
+        ];
       };
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    font-manager
+  ];
 }

@@ -22,6 +22,7 @@
     wf-recorder
     wl-clipboard
     wlr-randr
+    imv
   ];
 
   security.polkit.enable = true;
