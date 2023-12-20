@@ -12,17 +12,17 @@
 
   outputs = { nixpkgs, ... } @ inputs:
     {
-      nixosConfigurations =
-        let
-          vars = {
-            system = "x86_64-linux";
-            hostname = "xps13";
-            username = "florent";
-          };
-        in
-        {
-          xps13 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
+      nixosConfigurations = {
+        xps13 =
+          let
+            vars = {
+              system = "x86_64-linux";
+              hostname = "xps13";
+              username = "florent";
+            };
+          in
+          nixpkgs.lib.nixosSystem {
+            system = vars.system;
             specialArgs = {
               inherit inputs vars;
             };
@@ -30,6 +30,6 @@
               ./hosts/xps13/system.nix
             ];
           };
-        };
+      };
     };
 }
