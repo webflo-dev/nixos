@@ -1,9 +1,12 @@
 { pkgs, inputs, vars, ... }:
 {
   imports = [
+    inputs.agenix.homeManagerModules.age
+
     # Core presets
     ../../../presets/home-manager/xdg
     ../../../presets/home-manager/zsh
+    ../../../presets/home-manager/git
 
     # Desktop
     ../../../presets/home-manager/kitty
@@ -11,6 +14,7 @@
     ../../../presets/home-manager/hyprland
     ../../../presets/home-manager/ags
     ../../../presets/home-manager/gtk
+    ../../../presets/home-manager/mime-apps
 
     # Misc
     ../../../presets/home-manager/ranger
