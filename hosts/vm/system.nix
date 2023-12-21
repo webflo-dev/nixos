@@ -5,30 +5,31 @@
     ./hardware-configuration.nix
 
     ### Nixos modules
-    ../../modules/system/network.nix
-    ../../modules/system/security.nix
-    ../../modules/system/nix-settings.nix
+    ../../presets/network.nix
+    ../../presets/security.nix
+    ../../presets/nix-settings.nix
 
     ### Core modules
-    ../../modules/system/locales.nix
-    ../../modules/system/cli-tools.nix
-    ../../modules/system/zsh.nix
-    ../../modules/system/pipewire.nix
+    ../../presets/locales.nix
+    ../../presets/cli-tools.nix
+    ../../presets/zsh.nix
+    ../../presets/pipewire.nix
+    ../../presets/agenix.nix
 
     ### Desktop modules
-    # ../../modules/system/fonts.nix
-    # ../../modules/system/hyprland.nix
-    # ../../modules/system/thunar.nix
-    # ../../modules/system/video.nix
+    # ../../presets/fonts.nix
+    # ../../presets/hyprland.nix
+    # ../../presets/thunar.nix
+    # ../../presets/video.nix
 
     ### Host-specific modules
-    # ../../modules/system/bluetooth.nix
-    # ../../modules/system/fingerprint.nix
+    # ../../presets/bluetooth.nix
+    # ../../presets/fingerprint.nix
 
     ### Other modules
-    ../../modules/system/work.nix
-    ../../modules/system/development.nix
-    ../../modules/system/docker.nix
+    ../../presets/work.nix
+    ../../presets/development.nix
+    ../../presets/docker.nix
   ];
 
   fileSystems."/home/${vars.username}/${vars.sharefolder}" = {
