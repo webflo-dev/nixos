@@ -9,11 +9,19 @@
       url = "github:webflo-dev/nixos-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
 
-  outputs = { nixpkgs, ... } @ inputs:
+  outputs = { self, nixpkgs, ... } @ inputs:
     let
+      # Output all modules in ./modules to flake. Modules should be in
+      # individual subdirectories and contain a default.nix file
+
       mkHost = { system, hostname, username, ... }@vars:
         nixpkgs.lib.nixosSystem {
           system = system;
@@ -21,11 +29,19 @@
             inherit inputs vars;
           };
           modules = [
+            { imports = builtins.attrValues self.customModules; }
             ./hosts/${hostname}/system.nix
           ];
         };
     in
     {
+      customModules = builtins.listToAttrs (map
+        (x: {
+          name = x;
+          value = import (./modules + "/${x}");
+        })
+        (builtins.attrNames (builtins.readDir ./modules)));
+
       nixosConfigurations = {
         xps13 = mkHost {
           system = "x86_64-linux";
