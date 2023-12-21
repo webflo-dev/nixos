@@ -1,5 +1,26 @@
 { pkgs, inputs, vars, ... }:
 {
+  imports = [
+    # Core presets
+    ../../../presets/home-manager/xdg
+    ../../../presets/home-manager/zsh
+
+    # Desktop
+    ../../../presets/home-manager/kitty
+    ../../../presets/home-manager/fonts
+    ../../../presets/home-manager/hyprland
+    ../../../presets/home-manager/ags
+    ../../../presets/home-manager/gtk
+
+    # Misc
+    ../../../presets/home-manager/ranger
+    ../../../presets/home-manager/pulsemixer
+    ../../../presets/home-manager/neofetch
+
+    # Work
+    ../../../presets/home-manager/work
+  ];
+
   programs.home-manager.enable = true;
 
   home = {
@@ -7,8 +28,21 @@
     username = vars.username;
     homeDirectory = "/home/${vars.username}";
     packages = with pkgs; [
+      # CLI
       croc
-      gitui
+      ranger
+
+      # Browser
+      microsoft-edge
+      google-chrome
+      brave
+      vivaldi
+
+      # Multimedia
+      spotify
+
+      # Development
+      vscode
     ];
   };
 }

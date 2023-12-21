@@ -1,0 +1,33 @@
+import { Widget, Battery } from "../../ags.js";
+
+export default () =>
+  Widget.Box({
+    class_name: "battery",
+    children: [
+      Widget.Icon({
+        connections: [
+          [
+            Battery,
+            (self) => {
+              self.icon = `battery-level-${
+                Math.floor(Battery.percent / 10) * 10
+              }-symbolic`;
+            },
+          ],
+        ],
+      }),
+      Widget.ProgressBar({
+        vpack: "center",
+        connections: [
+          [
+            Battery,
+            (self) => {
+              if (Battery.percent < 0) return;
+
+              self.fraction = Battery.percent / 100;
+            },
+          ],
+        ],
+      }),
+    ],
+  });

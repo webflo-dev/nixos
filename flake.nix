@@ -19,6 +19,11 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
 
@@ -32,7 +37,7 @@
           };
           modules = [
             { imports = builtins.attrValues self.customModules; }
-            ./hosts/${hostname}/system.nix
+            ./hosts/${hostname}/system
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = { inherit inputs vars; };
