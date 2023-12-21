@@ -17,6 +17,7 @@
     ../../modules/system/security.nix
     ../../modules/system/thunar.nix
     ../../modules/system/video.nix
+    ../../modules/system/work.nix
     ../../modules/system/zsh.nix
   ];
 

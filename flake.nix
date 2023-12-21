@@ -2,7 +2,9 @@
   description = "NixOS & Home manager (webflo edition)";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
+    # nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+
     webflo = {
       url = "github:webflo-dev/nixos-packages";
       inputs.nixpkgs.follows = "nixpkgs";

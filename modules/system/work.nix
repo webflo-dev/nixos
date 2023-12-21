@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, vars, ... }:
 {
   environment.systemPackages = with pkgs; [
     slack
