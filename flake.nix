@@ -14,14 +14,16 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
 
-  outputs = { self, nixpkgs, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
-      # Output all modules in ./modules to flake. Modules should be in
-      # individual subdirectories and contain a default.nix file
-
       mkHost = { system, hostname, username, ... }@vars:
         nixpkgs.lib.nixosSystem {
           system = system;
@@ -31,6 +33,13 @@
           modules = [
             { imports = builtins.attrValues self.customModules; }
             ./hosts/${hostname}/system.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = { inherit inputs vars; };
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.${username} = import ./hosts/${hostname}/home-manager;
+            }
           ];
         };
     in

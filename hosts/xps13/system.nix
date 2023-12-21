@@ -47,6 +47,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  zramSwap.enable = true;
+
   services.fwupd.enable = true;
 
   users.users.${vars.username} = {

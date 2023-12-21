@@ -17,7 +17,7 @@
     ../../presets/agenix.nix
 
     ### Desktop modules
-    # ../../presets/fonts.nix
+    ../../presets/fonts.nix
     # ../../presets/hyprland.nix
     # ../../presets/thunar.nix
     # ../../presets/video.nix
