@@ -3,22 +3,32 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/system/bluetooth.nix
+
+    ### Nixos modules
+    ../../modules/system/network.nix
+    ../../modules/system/security.nix
+    ../../modules/system/nix-settings.nix
+
+    ### Core modules
+    ../../modules/system/locales.nix
     ../../modules/system/cli-tools.nix
-    ../../modules/system/development.nix
-    ../../modules/system/docker.nix
-    ../../modules/system/fingerprint.nix
+    ../../modules/system/zsh.nix
+    ../../modules/system/pipewire.nix
+
+    ### Desktop modules
     ../../modules/system/fonts.nix
     ../../modules/system/hyprland.nix
-    ../../modules/system/locales.nix
-    ../../modules/system/network.nix
-    ../../modules/system/nix-settings.nix
-    ../../modules/system/pipewire.nix
-    ../../modules/system/security.nix
     ../../modules/system/thunar.nix
     ../../modules/system/video.nix
+
+    ### Host-specific modules
+    ../../modules/system/bluetooth.nix
+    ../../modules/system/fingerprint.nix
+
+    ### Other modules
     ../../modules/system/work.nix
-    ../../modules/system/zsh.nix
+    ../../modules/system/development.nix
+    ../../modules/system/docker.nix
   ];
 
   boot = {
