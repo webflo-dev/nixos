@@ -2,31 +2,16 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1703004097,
-        "narHash": "sha256-KCHoCrXfZ5LkwBZBbVly4jIUX5RO3L2ybqr5c1mxBgU=",
+        "lastModified": 1703068421,
+        "narHash": "sha256-WSw5Faqlw75McIflnl5v7qVD/B3S2sLh+968bpOGrWA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "093cffd33371b29257a4302206c214e87a0297ac",
+        "rev": "d65bceaee0fb1e64363f7871bc43dc1c6ecad99f",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "release-23.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1703002921,
-        "narHash": "sha256-rgWUkKPloyPDIQaab9cxRfDJWVb6GFFtgTkqdunMkBY=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "389b3f4ad217ce363882bd6bc3fe9b166c5d5c56",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
+        "ref": "nixos-23.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -39,14 +24,16 @@
     },
     "webflo": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1703005394,
-        "narHash": "sha256-IHB6I4TOQPvcfLpxlfUa8Fpdt1aVl+kdtv7QeR/hrFY=",
+        "lastModified": 1703081585,
+        "narHash": "sha256-CpTHFlMYVIWPUKPgH6TA/Hqve9hQTTmYFQUit+lZPM0=",
         "owner": "webflo-dev",
         "repo": "nixos-packages",
-        "rev": "dc1156b2de56802f2d4c3b17aa338325915ce963",
+        "rev": "6906a8ea678aca42cb824b89722f589668265606",
         "type": "github"
       },
       "original": {

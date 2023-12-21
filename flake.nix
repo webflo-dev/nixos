@@ -13,25 +13,32 @@
 
 
   outputs = { nixpkgs, ... } @ inputs:
+    let
+      mkHost = { system, hostname, username, ... }@vars:
+        nixpkgs.lib.nixosSystem {
+          system = system;
+          specialArgs = {
+            inherit inputs vars;
+          };
+          modules = [
+            ./hosts/${hostname}/system.nix
+          ];
+        };
+    in
     {
       nixosConfigurations = {
-        xps13 =
-          let
-            vars = {
-              system = "x86_64-linux";
-              hostname = "xps13";
-              username = "florent";
-            };
-          in
-          nixpkgs.lib.nixosSystem {
-            system = vars.system;
-            specialArgs = {
-              inherit inputs vars;
-            };
-            modules = [
-              ./hosts/xps13/system.nix
-            ];
-          };
+        xps13 = mkHost {
+          system = "x86_64-linux";
+          hostname = "xps13";
+          username = "florent";
+        };
+
+        vm = mkHost {
+          system = "x86_64-linux";
+          hostname = "vm";
+          username = "florent";
+          sharefolder = "webflo";
+        };
       };
     };
 }
