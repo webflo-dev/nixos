@@ -7,7 +7,6 @@ let
   XDG_DATA_HOME = "${homeDir}/.local/share";
   XDG_STATE_HOME = "${homeDir}/.local/state";
 
-  # XDG_RUNTIME_DIR = "/run/user/$(id -u)";
   XDG_DOWNLOAD_DIR = "${homeDir}/Downloads";
   XDG_DOCUMENTS_DIR = "${homeDir}/Documents";
   XDG_PICTURES_DIR = "${homeDir}/Pictures";

@@ -1,8 +1,6 @@
 { pkgs, inputs, vars, ... }:
 {
   imports = [
-    inputs.agenix.homeManagerModules.age
-
     # Core presets
     ../../../presets/home-manager/xdg
     ../../../presets/home-manager/zsh

@@ -54,6 +54,7 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
+    uid = vars.userId;
   };
 
   environment.systemPackages = with pkgs; [

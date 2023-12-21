@@ -1,9 +1,13 @@
-{ config, ... }:
+{ config, vars, ... }:
 {
-  age.secrets."git-config-github".file = ../../../secrets/git-config-github.age;
-
-  # environment.etc."vanta.conf".source = config.age.secrets."vanta-conf".path;
-
+  age = {
+    identityPaths = [
+      "${config.home.homeDirectory}/.ssh/agenix-git-config-github"
+    ];
+    secrets = {
+      git-config-github.file = ../../../secrets/git-config-github.age;
+    };
+  };
 
   programs.git = {
     enable = true;
@@ -129,10 +133,6 @@
         condition = "hasconfig:remote.*.url:git@github.com:**/**";
         path = config.age.secrets."git-config-github".path;
       }
-      # {
-      #   path = "${config.home.homeDirectory}/git/config-github.inc";
-      #   condition = "hasconfig:remote.*.url:git@github.com:**/**";
-      # }
     ];
   };
 
