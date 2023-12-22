@@ -1,6 +1,6 @@
-{ pkgs, inputs, vars, ... }:
+{ pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    inputs.agenix.packages.${vars.system}.default
+    inputs.agenix.packages.${pkgs.system}.default
   ];
 }

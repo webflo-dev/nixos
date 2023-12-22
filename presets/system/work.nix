@@ -1,4 +1,4 @@
-{ config, pkgs, vars, ... }:
+{ config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     slack

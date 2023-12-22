@@ -1,4 +1,4 @@
-{ pkgs, inputs, vars, ... }:
+{ pkgs, inputs, ... }:
 
 {
   fonts = {
@@ -9,7 +9,7 @@
       (nerdfonts.override {
         fonts = [ "NerdFontsSymbolsOnly" ];
       })
-      inputs.webflo.packages.${vars.system}.font-luciole
+      inputs.webflo.packages.${pkgs.system}.font-luciole
     ];
 
     fontconfig = {
