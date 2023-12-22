@@ -1,0 +1,407 @@
+window {
+  background: transparent; }
+  window window#window-closer {
+    border: 2px solid red; }
+
+label {
+  font-family: "system-ui";
+  font-size: 16px;
+  color: #d8e2e1; }
+
+button {
+  all: unset; }
+
+.icon {
+  font-family: "Font Awesome 6 Pro Regular"; }
+
+.monospace {
+  font-family: "monospace"; }
+
+.bar {
+  background-color: transparent;
+  margin-top: 5px;
+  margin-left: 20px;
+  margin-right: 20px; }
+  .bar .module {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85); }
+    .bar .module > .icon {
+      color: #ecbd10; }
+  .bar #module-date,
+  .bar #module-time {
+    font-weight: bold;
+    font-size: 1.2rem; }
+  .bar .workspaces {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85); }
+    .bar .workspaces .workspace .indicator {
+      font-family: "Font Awesome 6 Pro Solid";
+      color: #626861;
+      font-size: 1.5rem; }
+    .bar .workspaces .workspace.active .indicator {
+      color: #ecbd10; }
+    .bar .workspaces .workspace.occupied:not(.active) .indicator {
+      color: #32b5c7; }
+  .bar .systray {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85);
+    font-size: 20px; }
+  .bar .system-info {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85); }
+    .bar .system-info > .normal .icon {
+      color: #7cbd27; }
+    .bar .system-info > .normal .text {
+      color: #d8e2e1; }
+    .bar .system-info > .warning .icon {
+      color: #df7c2c; }
+    .bar .system-info > .warning .text {
+      color: #df7c2c; }
+    .bar .system-info > .critical {
+      color: #cf3746;
+      background-color: #cf3746; }
+  .bar .audio {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85); }
+    .bar .audio .microphone .icon {
+      color: #ecbd10; }
+      .bar .audio .microphone .icon.muted {
+        color: #cf3746; }
+    .bar .audio .volume.muted .icon,
+    .bar .audio .volume.muted .text {
+      color: #cf3746; }
+    .bar .audio .volume .icon {
+      color: #ecbd10; }
+  .bar .mpris {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85);
+    padding-top: 0;
+    padding-bottom: 0; }
+    .bar .mpris .artist {
+      font-weight: bold; }
+    .bar .mpris .title {
+      font-weight: normal; }
+    .bar .mpris .previous:hover,
+    .bar .mpris .next:hover,
+    .bar .mpris .play-pause:hover {
+      color: #ecbd10; }
+  .bar #notification-indicator {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85); }
+    .bar #notification-indicator.full {
+      border: 2px solid #ecbd10; }
+      .bar #notification-indicator.full .icon {
+        color: #ecbd10;
+        font-family: "Font Awesome 6 Pro Solid"; }
+    .bar #notification-indicator .summary {
+      margin-left: 8px; }
+    .bar #notification-indicator .app-icon {
+      font-size: 20px; }
+    .bar #notification-indicator .icon {
+      font-family: "Font Awesome 6 Pro Regular"; }
+  .bar #screenrecord.recording {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85);
+    background-color: #cf3746;
+    color: #d8e2e1;
+    border: 2px solid #d8e2e1; }
+    .bar #screenrecord.recording .icon {
+      font-family: "Font Awesome 6 Pro Solid";
+      color: #d8e2e1; }
+  .bar #screenrecord.selecting {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85);
+    border: 2px solid #df7c2c; }
+    .bar #screenrecord.selecting .icon {
+      font-family: "Font Awesome 6 Pro Solid";
+      color: #df7c2c; }
+  .bar #screenshot {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #626861;
+    background-color: rgba(23, 26, 31, 0.85);
+    border: 2px solid #df7c2c; }
+    .bar #screenshot .icon {
+      font-family: "Font Awesome 6 Pro Solid";
+      color: #df7c2c; }
+
+#app-launcher .app-launcher {
+  background-color: #171a1f;
+  border: 2px solid #7cbd27;
+  border-radius: 8px;
+  padding: 10px; }
+  #app-launcher .app-launcher .search {
+    margin: 10px; }
+    #app-launcher .app-launcher .search entry {
+      padding: 4px;
+      padding-left: 8px; }
+    #app-launcher .app-launcher .search .icon {
+      margin-right: 8px;
+      font-size: 24px; }
+  #app-launcher .app-launcher scrolledwindow {
+    padding-top: 8px;
+    min-width: 400px;
+    min-height: 400px; }
+  #app-launcher .app-launcher .app {
+    all: unset;
+    margin: 5px 0; }
+    #app-launcher .app-launcher .app image {
+      margin-right: 8px; }
+    #app-launcher .app-launcher .app .description {
+      font-size: 14px;
+      color: rgba(216, 226, 225, 0.7); }
+    #app-launcher .app-launcher .app:hover .title, #app-launcher .app-launcher .app:focus .title {
+      color: #d8e2e1; }
+    #app-launcher .app-launcher .app:active, #app-launcher .app-launcher .app:focus {
+      border-radius: 8px;
+      background-color: rgba(216, 226, 225, 0.5); }
+      #app-launcher .app-launcher .app:active .title, #app-launcher .app-launcher .app:focus .title {
+        color: #171a1f; }
+      #app-launcher .app-launcher .app:active .description, #app-launcher .app-launcher .app:focus .description {
+        color: #424b5a; }
+
+#notification-center .notifications {
+  min-width: 600px;
+  min-height: 600px;
+  padding: 1.5rem;
+  border: 2px solid #7cbd27;
+  border-radius: 8px;
+  background-color: #171a1f;
+  color: #d8e2e1; }
+  #notification-center .notifications .header {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem; }
+    #notification-center .notifications .header .dnd:checked {
+      background-color: #7cbd27; }
+    #notification-center .notifications .header .clear-button {
+      padding: 4px 8px;
+      border-radius: 8px; }
+      #notification-center .notifications .header .clear-button:hover {
+        background-color: #aeb7b6; }
+        #notification-center .notifications .header .clear-button:hover,
+        #notification-center .notifications .header .clear-button:hover label {
+          color: #292a2b; }
+  #notification-center .notifications .notifications-scrollable scrollbar,
+  #notification-center .notifications .notifications-scrollable scrollbar * {
+    all: unset; }
+  #notification-center .notifications .notifications-scrollable scrollbar.vertical {
+    background-color: rgba(23, 26, 31, 0.3); }
+    #notification-center .notifications .notifications-scrollable scrollbar.vertical:hover {
+      background-color: rgba(23, 26, 31, 0.7); }
+      #notification-center .notifications .notifications-scrollable scrollbar.vertical:hover slider {
+        background-color: rgba(216, 226, 225, 0.7);
+        min-width: 0.6em; }
+  #notification-center .notifications .notifications-scrollable scrollbar.vertical slider {
+    background-color: rgba(216, 226, 225, 0.5);
+    min-width: 0.4em;
+    min-height: 2em; }
+  #notification-center .notifications .empty-list image {
+    font-size: 7em; }
+  #notification-center .notifications .empty-list label {
+    font-size: 2em; }
+  #notification-center .notifications .notification {
+    border-radius: 8px;
+    border: 1px solid #626861;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 0.5rem; }
+    #notification-center .notifications .notification widget:hover button.close-button {
+      background-color: rgba(207, 55, 70, 0.5); }
+    #notification-center .notifications .notification.critical {
+      border: 1px solid #cf3746;
+      box-shadow: inset 0 0 0.5rem 0 #cf3746; }
+    #notification-center .notifications .notification .content .title {
+      margin-right: 8px;
+      font-weight: bold; }
+    #notification-center .notifications .notification .content .time {
+      color: #626861; }
+    #notification-center .notifications .notification .content .description {
+      color: #aeb7b6;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem; }
+    #notification-center .notifications .notification .content .image {
+      border-radius: 6.4px;
+      margin-right: 8px;
+      min-width: 78px;
+      min-height: 78px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center; }
+    #notification-center .notifications .notification .content button.close-button {
+      border-radius: 6.4px;
+      font-size: 1.5rem; }
+      #notification-center .notifications .notification .content button.close-button:hover {
+        background-color: #cf3746; }
+    #notification-center .notifications .notification .actions button {
+      margin: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      background-color: #303330; }
+      #notification-center .notifications .notification .actions button:hover {
+        background-color: #aeb7b6; }
+        #notification-center .notifications .notification .actions button:hover,
+        #notification-center .notifications .notification .actions button:hover label {
+          color: #292a2b; }
+
+window#power-menu .power-menu {
+  padding: 20px;
+  border: 2px solid #7cbd27;
+  background-color: #171a1f;
+  border-radius: 8px;
+  min-width: 600px;
+  min-height: 200px; }
+  window#power-menu .power-menu button {
+    border: 2px solid;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 10px; }
+    window#power-menu .power-menu button {
+      border-color: #626861; }
+    window#power-menu .power-menu button.shutdown label {
+      color: #cf3746; }
+    window#power-menu .power-menu button.shutdown:focus, window#power-menu .power-menu button.shutdown:hover {
+      border-color: #cf3746;
+      background-color: #811f29; }
+      window#power-menu .power-menu button.shutdown:focus label, window#power-menu .power-menu button.shutdown:hover label {
+        color: #d8e2e1; }
+    window#power-menu .power-menu button.shutdown:active {
+      background-color: #cf3746; }
+    window#power-menu .power-menu button.reboot label {
+      color: #df7c2c; }
+    window#power-menu .power-menu button.reboot:focus, window#power-menu .power-menu button.reboot:hover {
+      border-color: #df7c2c;
+      background-color: #8f4c16; }
+      window#power-menu .power-menu button.reboot:focus label, window#power-menu .power-menu button.reboot:hover label {
+        color: #d8e2e1; }
+    window#power-menu .power-menu button.reboot:active {
+      background-color: #df7c2c; }
+    window#power-menu .power-menu button.logout label {
+      color: #277ab6; }
+    window#power-menu .power-menu button.logout:focus, window#power-menu .power-menu button.logout:hover {
+      border-color: #277ab6;
+      background-color: #154262; }
+      window#power-menu .power-menu button.logout:focus label, window#power-menu .power-menu button.logout:hover label {
+        color: #d8e2e1; }
+    window#power-menu .power-menu button.logout:active {
+      background-color: #277ab6; }
+
+window#power-menu-confirm .confirmation {
+  margin: 20px;
+  padding: 20px;
+  background-color: #171a1f;
+  border-radius: 8px;
+  min-width: 600px;
+  min-height: 200px; }
+  window#power-menu-confirm .confirmation.shutdown {
+    border: 2px solid #cf3746; }
+    window#power-menu-confirm .confirmation.shutdown .title > * {
+      color: #cf3746;
+      font-weight: bold;
+      font-size: xx-large;
+      margin-left: 10px; }
+    window#power-menu-confirm .confirmation.shutdown button {
+      border-radius: 8px;
+      margin: 10px;
+      padding: 10px;
+      border: 2px solid #626861; }
+      window#power-menu-confirm .confirmation.shutdown button.yes {
+        border-color: #cf3746; }
+        window#power-menu-confirm .confirmation.shutdown button.yes:focus, window#power-menu-confirm .confirmation.shutdown button.yes:hover {
+          background-color: #811f29; }
+        window#power-menu-confirm .confirmation.shutdown button.yes:active {
+          background-color: #cf3746; }
+      window#power-menu-confirm .confirmation.shutdown button.no:focus, window#power-menu-confirm .confirmation.shutdown button.no:hover {
+        background-color: #303330; }
+      window#power-menu-confirm .confirmation.shutdown button.no:active {
+        background-color: #626861; }
+  window#power-menu-confirm .confirmation.reboot {
+    border: 2px solid #df7c2c; }
+    window#power-menu-confirm .confirmation.reboot .title > * {
+      color: #df7c2c;
+      font-weight: bold;
+      font-size: xx-large;
+      margin-left: 10px; }
+    window#power-menu-confirm .confirmation.reboot button {
+      border-radius: 8px;
+      margin: 10px;
+      padding: 10px;
+      border: 2px solid #626861; }
+      window#power-menu-confirm .confirmation.reboot button.yes {
+        border-color: #df7c2c; }
+        window#power-menu-confirm .confirmation.reboot button.yes:focus, window#power-menu-confirm .confirmation.reboot button.yes:hover {
+          background-color: #8f4c16; }
+        window#power-menu-confirm .confirmation.reboot button.yes:active {
+          background-color: #df7c2c; }
+      window#power-menu-confirm .confirmation.reboot button.no:focus, window#power-menu-confirm .confirmation.reboot button.no:hover {
+        background-color: #303330; }
+      window#power-menu-confirm .confirmation.reboot button.no:active {
+        background-color: #626861; }
+  window#power-menu-confirm .confirmation.logout {
+    border: 2px solid #277ab6; }
+    window#power-menu-confirm .confirmation.logout .title > * {
+      color: #277ab6;
+      font-weight: bold;
+      font-size: xx-large;
+      margin-left: 10px; }
+    window#power-menu-confirm .confirmation.logout button {
+      border-radius: 8px;
+      margin: 10px;
+      padding: 10px;
+      border: 2px solid #626861; }
+      window#power-menu-confirm .confirmation.logout button.yes {
+        border-color: #277ab6; }
+        window#power-menu-confirm .confirmation.logout button.yes:focus, window#power-menu-confirm .confirmation.logout button.yes:hover {
+          background-color: #154262; }
+        window#power-menu-confirm .confirmation.logout button.yes:active {
+          background-color: #277ab6; }
+      window#power-menu-confirm .confirmation.logout button.no:focus, window#power-menu-confirm .confirmation.logout button.no:hover {
+        background-color: #303330; }
+      window#power-menu-confirm .confirmation.logout button.no:active {
+        background-color: #626861; }
+
+.osd {
+  border-radius: 8px; }
+  .osd .progress {
+    border: 2px solid #32b5c7;
+    background-color: #171a1f;
+    border-radius: 8px;
+    padding: 4px; }
+    .osd .progress .progress-bar {
+      background-color: #32b5c7;
+      color: #171a1f;
+      border-radius: 4px; }
+    .osd .progress .icon {
+      font-size: 34px;
+      color: #171a1f; }
+    .osd .progress.vertical .icon {
+      padding-bottom: 12px; }
+    .osd .progress.horizontal .icon {
+      padding-left: 12px; }
+    .osd .progress.muted .progress-bar {
+      background-color: #cf3746; }
+
+#toto {
+  border: 1px solid #ad4ed2;
+  padding: 10px; }
+  #toto label {
+    border: 1px solid #df7c2c; }
