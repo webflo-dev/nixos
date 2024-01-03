@@ -45,7 +45,7 @@ export const Bar = ({ monitor = 0 } = {}) =>
   Widget.Window({
     name: `bar-${monitor}`,
     class_name: "bar",
-    exclusive: true,
+    exclusivity: 'exclusive',
     monitor,
     anchor: ["top", "left", "right"],
     child: Widget.CenterBox({

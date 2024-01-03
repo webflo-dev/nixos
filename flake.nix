@@ -66,9 +66,14 @@
         };
     in
     {
-
-
       nixosConfigurations = {
+        bureau = mkHost {
+                system = "x86_64-linux";
+                hostname = "bureau";
+                username = "florent";
+                userId = 1000;
+        };
+
         xps13 = mkHost {
           system = "x86_64-linux";
           hostname = "xps13";

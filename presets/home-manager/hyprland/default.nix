@@ -43,7 +43,7 @@ in
       };
 
       monitor = [
-        "DP-2, 3840x2160@144, 0x0, 1"
+        "DP-2, 3840x2160@144, 0x0, 1, bitdepth,10" # not sure if bitdepth is required
         "eDP-1, 1920x12000@60, 0x0, 1"
       ];
 

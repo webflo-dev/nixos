@@ -7,6 +7,6 @@
     nodejs_20
   ];
 
-  webflo.services.vanta-agent.enable = true;
+  webflo.services.vanta-agent.enable = false;
 
 }

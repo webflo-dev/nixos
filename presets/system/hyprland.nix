@@ -1,6 +1,14 @@
 { pkgs, ... }:
 {
-  programs.hyprland.enable = true;
+   nix.settings = {
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
+  
+  programs.hyprland = {
+    enable = true;
+    enableNvidiaPatches = true;
+  };
 
   xdg.portal = {
     enable = true;
@@ -34,6 +42,13 @@
     MOZ_ENABLE_WAYLAND = "1";
     GTK_USE_PORTAL = "1";
     SDL_VIDEODRIVER = "wayland";
+
+    ### Nvidia
+    LIBVA_DRIVER_NAME = "nvidia";
+    XDG_SESSION_TYPE = "wayland";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   systemd = {
