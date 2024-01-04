@@ -9,4 +9,5 @@
     fzf
   ];
 
+  environment.pathsToLink = ["/share/zsh"];
 }

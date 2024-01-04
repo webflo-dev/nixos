@@ -29,24 +29,38 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
-      customModules = builtins.listToAttrs (map
+      customSystemModules = builtins.listToAttrs (map
         (x: {
           name = x;
-          value = import (./modules + "/${x}");
+          value = import (./modules/system + "/${x}");
         })
-        (builtins.attrNames (builtins.readDir ./modules)));
+        (builtins.attrNames (builtins.readDir ./modules/system)));
 
-      mkHost = { system, hostname, username, userId, ... }@vars:
+      mkHost = { system ? "x86_64-linux", hostname, username, userId ? 1000, ... }@vars:
         nixpkgs.lib.nixosSystem {
           system = system;
           specialArgs = {
             inherit inputs vars;
           };
           modules = [
-            { imports = builtins.attrValues customModules; }
+            ### Custom modules
+            { imports = builtins.attrValues customSystemModules; }
+            { 
+              networking.hostName = hostname;
+
+              webflo.modules.user = {
+                enable = true;
+                username = username;
+                uid = userId;
+              };
+            }
+
+            ### Host
+            ./hosts/${hostname}/hardware-configuration.nix
+            ./hosts/${hostname}/system.nix
+
+            ### Home-manager
             home-manager.nixosModules.home-manager
-            inputs.agenix.nixosModules.default
-            ./hosts/${hostname}/system
             {
               home-manager.extraSpecialArgs = { inherit inputs vars; };
               home-manager.useGlobalPkgs = true;
@@ -68,24 +82,18 @@
     {
       nixosConfigurations = {
         bureau = mkHost {
-                system = "x86_64-linux";
-                hostname = "bureau";
-                username = "florent";
-                userId = 1000;
+          hostname = "bureau";
+          username = "florent";
         };
 
         xps13 = mkHost {
-          system = "x86_64-linux";
           hostname = "xps13";
           username = "florent";
-          userId = 1000;
         };
 
         vm = mkHost {
-          system = "x86_64-linux";
           hostname = "vm";
           username = "florent";
-          userId = 1000;
           sharefolder = "webflo";
         };
       };
