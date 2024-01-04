@@ -38,20 +38,20 @@
       initExtra = builtins.readFile ./init-extra.zsh;
 
       shellAliases = {
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        "...." = "cd ../../..";
+        # ".." = "cd ..";
+        # "..." = "cd ../..";
+        # "...." = "cd ../../..";
 
-        grep = "grep --color=auto";
-        sgrep = "grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}";
-        fgrep = "fgrep --color=auto";
-        egrep = "egrep --color=auto";
+        # grep = "grep --color=auto";
+        # sgrep = "grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}";
+        # fgrep = "fgrep --color=auto";
+        # egrep = "egrep --color=auto";
         less = "less -R";
 
-        rm = "rm -i";
-        cp = "cp -i";
-        mv = "mv -i";
-        mkdir = "mkdir -p";
+        # rm = "rm -i";
+        # cp = "cp -i";
+        # mv = "mv -i";
+        # mkdir = "mkdir -p";
 
 
         view = "bat";
@@ -64,13 +64,12 @@
         la = "ls";
         l = "ls";
 
-        path = "echo -e \${PATH//:/\\n}";
+        # path = "echo -e \${PATH//:/\\n}";
 
         ssh-add-keys = "eval '$(ssh-agent -s)' && ssh-add";
 
-
-        logout = "loginctl terminate-session self";
-        poweroff = "systemctl poweroff";
+        # logout = "loginctl terminate-session self";
+        # poweroff = "systemctl poweroff";
 
         words = "rg --pretty --with-filename --hidden --follow -g '!.git'";
         files = "fd --type f --hidden --follow --exclude.git";

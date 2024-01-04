@@ -5,7 +5,7 @@
     # nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
-    webflo = {
+    webflo-pkgs = {
       url = "github:webflo-dev/nixos-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -29,24 +29,49 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
-      customModules = builtins.listToAttrs (map
+      customSystemModules = builtins.listToAttrs (map
         (x: {
           name = x;
-          value = import (./modules + "/${x}");
+          value = import (./modules/system + "/${x}");
         })
-        (builtins.attrNames (builtins.readDir ./modules)));
+        (builtins.attrNames (builtins.readDir ./modules/system)));
 
-      mkHost = { system, hostname, username, userId, ... }@vars:
+      customSystemPresets = builtins.listToAttrs (map
+        (x: {
+          name = x;
+          value = import (./presets/system + "/${x}");
+        })
+        (builtins.attrNames (builtins.readDir ./presets/system)));
+
+
+      mkHost = { system ? "x86_64-linux", hostname, username, userId ? 1000, ... }@vars:
         nixpkgs.lib.nixosSystem {
           system = system;
           specialArgs = {
             inherit inputs vars;
           };
           modules = [
-            { imports = builtins.attrValues customModules; }
+            ### Custom modules
+            { imports = builtins.attrValues customSystemModules; }
+            { imports = builtins.attrValues customSystemPresets; }
+            
+            ### Required configuration
+            {
+              webflo.modules = {
+                network.hostName = hostname;
+                user = {
+                  username = username;
+                  uid = userId;
+                };
+              };
+            }
+
+            ### Host configuration
+            ./hosts/${hostname}/hardware-configuration.nix
+            ./hosts/${hostname}/system.nix
+
+            ### Home-manager
             home-manager.nixosModules.home-manager
-            inputs.agenix.nixosModules.default
-            ./hosts/${hostname}/system
             {
               home-manager.extraSpecialArgs = { inherit inputs vars; };
               home-manager.useGlobalPkgs = true;
@@ -56,7 +81,7 @@
                   inputs.agenix.homeManagerModules.default
                   {
                     # Same as default but with expanded path. Because Git for example doesn't work with env variable in config file.
-                    age.secretsDir = "/run/user/${toString vars.userId}/agenix";
+                    age.secretsDir = "/run/user/${toString userId}/agenix";
                   }
                   ./hosts/${hostname}/home-manager
                 ];
@@ -68,24 +93,18 @@
     {
       nixosConfigurations = {
         bureau = mkHost {
-                system = "x86_64-linux";
-                hostname = "bureau";
-                username = "florent";
-                userId = 1000;
+          hostname = "bureau";
+          username = "florent";
         };
 
         xps13 = mkHost {
-          system = "x86_64-linux";
           hostname = "xps13";
           username = "florent";
-          userId = 1000;
         };
 
         vm = mkHost {
-          system = "x86_64-linux";
           hostname = "vm";
           username = "florent";
-          userId = 1000;
           sharefolder = "webflo";
         };
       };

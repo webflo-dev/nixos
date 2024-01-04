@@ -128,10 +128,10 @@
         "ags": "ags",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs",
-        "webflo": "webflo"
+        "webflo-pkgs": "webflo-pkgs"
       }
     },
-    "webflo": {
+    "webflo-pkgs": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
