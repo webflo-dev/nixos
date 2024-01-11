@@ -19,6 +19,4 @@
   services.fwupd.enable = true;
 
   webflo.modules.cliTools.enable = true;
-
-  system.stateVersion = "23.11";
 }

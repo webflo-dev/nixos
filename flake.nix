@@ -29,20 +29,7 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
-      customSystemModules = builtins.listToAttrs (map
-        (x: {
-          name = x;
-          value = import (./modules/system + "/${x}");
-        })
-        (builtins.attrNames (builtins.readDir ./modules/system)));
-
-      customSystemPresets = builtins.listToAttrs (map
-        (x: {
-          name = x;
-          value = import (./presets/system + "/${x}");
-        })
-        (builtins.attrNames (builtins.readDir ./presets/system)));
-
+      moduleList = type: folder: map (x: ./. + "/${type}/${folder}/${x}") (builtins.attrNames (builtins.readDir (./. + "/${type}/${folder}")));
 
       mkHost = { system ? "x86_64-linux", hostname, username, userId ? 1000, ... }@vars:
         nixpkgs.lib.nixosSystem {
@@ -50,44 +37,55 @@
           specialArgs = {
             inherit inputs vars;
           };
-          modules = [
+          modules =
             ### Custom modules
-            { imports = builtins.attrValues customSystemModules; }
-            { imports = builtins.attrValues customSystemPresets; }
-            
-            ### Required configuration
-            {
-              webflo.modules = {
-                network.hostName = hostname;
-                user = {
-                  username = username;
-                  uid = userId;
+            (moduleList "modules" "system") ++
+            (moduleList "presets" "system") ++ [
+
+              ### Required configuration
+              {
+                system.stateVersion = "23.11";
+                webflo.modules = {
+                  network.hostName = hostname;
+                  user = {
+                    username = username;
+                    uid = userId;
+                  };
                 };
-              };
-            }
+              }
 
-            ### Host configuration
-            ./hosts/${hostname}/hardware-configuration.nix
-            ./hosts/${hostname}/system.nix
+              ### Host configuration
+              ./hosts/${hostname}/hardware-configuration.nix
+              ./hosts/${hostname}/system.nix
 
-            ### Home-manager
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = { inherit inputs vars; };
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${username} = {
-                imports = [
-                  inputs.agenix.homeManagerModules.default
-                  {
-                    # Same as default but with expanded path. Because Git for example doesn't work with env variable in config file.
-                    age.secretsDir = "/run/user/${toString userId}/agenix";
-                  }
-                  ./hosts/${hostname}/home-manager
-                ];
-              };
-            }
-          ];
+              ### Home-manager
+              home-manager.nixosModules.home-manager
+
+              {
+                home-manager.extraSpecialArgs = { inherit inputs vars; };
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.users.${username} = {
+                  imports =
+                    (moduleList "modules" "home-manager") ++
+                    (moduleList "presets" "home-manager") ++
+                    [
+                      inputs.agenix.homeManagerModules.default
+                      {
+                        # Same as default but with expanded path. Because Git for example doesn't work with env variable in config file.
+                        age.secretsDir = "/run/user/${toString userId}/agenix";
+                        programs.home-manager.enable = true;
+                        home = {
+                          stateVersion = "23.11";
+                          username = username;
+                          homeDirectory = "/home/${username}";
+                        };
+                      }
+                      ./hosts/${hostname}/home-manager.nix
+                    ];
+                };
+              }
+            ];
         };
     in
     {

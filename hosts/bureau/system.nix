@@ -21,6 +21,4 @@
   environment.systemPackages = with pkgs; [
     udiskie
   ];
-
-  system.stateVersion = "23.11";
 }
