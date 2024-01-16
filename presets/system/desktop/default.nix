@@ -1,26 +1,24 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.webflo.presets.desktop;
-  inherit (lib) mkEnableOption mkOption mkIf types;
+  inherit (lib) mkEnableOption mkIf;
+  settings = config.webflo.settings;
 in
 {
   options.webflo.presets.desktop = {
     enable = mkEnableOption "Desktop preset with Hyprland";
-    username = mkOption {
-      type = types.str;
-    };
   };
 
   config = mkIf cfg.enable {
-    
+
     webflo.modules.pipewire = {
       enable = true;
-      audioGroupMembers = [ cfg.username];
+      audioGroupMembers = [ settings.user.name ];
     };
 
     webflo.modules.video = {
       enable = true;
-      videoGroupMembers = [ cfg.username];
+      videoGroupMembers = [ settings.user.name ];
     };
 
     webflo.modules.zsh.enable = true;

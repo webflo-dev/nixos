@@ -1,20 +1,21 @@
-{ config, lib, pkgs, ...}:
-let
-  cfg = config.webflo.modules.development;
-  inherit (lib) mkEnableOption mkOption mkIf types;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.webflo.modules.development;
+  inherit (lib) mkEnableOption mkIf;
+  settings = config.webflo.settings;
+in {
   options.webflo.modules.development = {
     enable = mkEnableOption "development module";
-    username = mkOption {
-      type = types.str;
-    };
   };
 
   config = mkIf cfg.enable {
     security.pam.loginLimits = [
       {
-        domain = cfg.username;
+        domain = settings.user.name;
         type = "soft";
         item = "nofile";
         value = "8192";

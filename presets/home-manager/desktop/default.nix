@@ -1,14 +1,11 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.webflo.presets.desktop;
-  inherit (lib) mkEnableOption mkOption mkIf types;
+  inherit (lib) mkEnableOption mkIf;
 in
 {
   options.webflo.presets.desktop = {
     enable = mkEnableOption "Desktop preset with Hyprland";
-    username = mkOption {
-      type = types.str;
-    };
   };
 
   config = mkIf cfg.enable {

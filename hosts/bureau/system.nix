@@ -1,4 +1,4 @@
-{ pkgs, vars, ... }:
+{ pkgs, ... }:
 
 {
   services.fwupd.enable = true;
@@ -10,11 +10,9 @@
   webflo.presets = {
     desktop = {
       enable = true;
-      username = vars.username;
     };
     work = {
       enable = true;
-      username = vars.username;
     };
   };
 

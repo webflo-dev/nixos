@@ -1,23 +1,19 @@
-{ config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.webflo.presets.desktop;
-  inherit (lib) mkEnableOption mkOption mkIf types;
+  inherit (lib) mkEnableOption mkIf;
 in
 {
   options.webflo.presets.work = {
     enable = mkEnableOption "work preset";
-    username = mkOption {
-      type = types.str;
-    };
   };
 
   config = mkIf cfg.enable {
 
     webflo.modules.development = {
       enable = true;
-      username = cfg.username;
     };
-    
+
     webflo.modules.docker.enable = true;
 
 

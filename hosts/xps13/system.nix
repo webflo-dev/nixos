@@ -1,4 +1,4 @@
-{ pkgs, vars, ... }:
+{ pkgs, ... }:
 
 {
   zramSwap.enable = true;
@@ -10,14 +10,8 @@
   };
 
   webflo.presets = {
-    desktop = {
-      enable = true;
-      username = vars.username;
-    };
-    work = {
-      enable = true;
-      username = vars.username;
-    };
+    desktop.enable = true;
+    work.enable = true;
   };
 
   environment.systemPackages = with pkgs; [

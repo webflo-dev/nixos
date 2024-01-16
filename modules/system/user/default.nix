@@ -1,25 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 let
-  cfg = config.webflo.modules.user;
-  inherit (lib) mkOption types;
+  settings = config.webflo.settings;
 in
 {
-  options.webflo.modules.user = {
-    username = mkOption {
-      type = types.str;
-    };
-
-    uid = mkOption {
-      type = types.int;
-    };
-  };
-
   config = {
-    users.users.${cfg.username} = {
+    users.users.${settings.user.name} = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "wheel" ];
       shell = pkgs.zsh;
-      uid = cfg.uid;
+      uid = settings.user.uid;
     };
     programs.zsh.enable = true;
   };

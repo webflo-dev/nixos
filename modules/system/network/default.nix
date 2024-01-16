@@ -1,24 +1,14 @@
- { config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 let
-  cfg = config.webflo.modules.network;
-  inherit (lib) mkOption types;
+  settings = config.webflo.settings;
 in
 {
-  options.webflo.modules.network = {
-    hostName = mkOption {
-      description = "Set the hostname";
-      type = types.str;
-    };
+  networking = {
+    networkmanager.enable = true;
+    hostName = settings.hostName;
   };
 
-  config = {
-    networking = {
-      networkmanager.enable = true;
-      hostName = cfg.hostName;
-    };
-
-    environment.systemPackages = with pkgs; [
-      networkmanagerapplet
-    ];
-  };
+  environment.systemPackages = with pkgs; [
+    networkmanagerapplet
+  ];
 }
