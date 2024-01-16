@@ -1,22 +1,26 @@
-{ config, lib, pkgs, inputs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
   cfg = config.webflo.modules.desktop.fonts;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+  defaultFont = "Luciole";
+  monospaceFont = "Cartograph CF";
+in {
   options.webflo.modules.desktop.fonts = {
     enable = mkEnableOption "Fonts module";
   };
-  
-    
+
   config = mkIf cfg.enable {
     fonts = {
       packages = with pkgs; [
         noto-fonts-color-emoji
-        # fira-code
-        monaspace
+        # monaspace
         (nerdfonts.override {
-          fonts = [ "NerdFontsSymbolsOnly" ];
+          fonts = ["NerdFontsSymbolsOnly"];
         })
         inputs.webflo-pkgs.packages.${pkgs.system}.font-luciole
       ];
@@ -35,18 +39,17 @@ in
 
         defaultFonts = {
           serif = [
-            "Luciole"
+            defaultFont
             "Noto Color Emoji"
             "Symbols Nerd Font"
           ];
           sansSerif = [
-            "Luciole"
+            defaultFont
             "Noto Color Emoji"
             "Symbols Nerd Font"
           ];
           monospace = [
-            "Cartograph CF"
-            # "Fira Code"
+            monospaceFont
             "Noto Color Emoji"
             "Symbols Nerd Font"
           ];

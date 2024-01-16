@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.ranger;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.ranger = {
     enable = mkEnableOption "ranger module";
   };

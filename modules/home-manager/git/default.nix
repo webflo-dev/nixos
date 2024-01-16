@@ -1,9 +1,11 @@
-{ config, lib, ... }:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.webflo.modules.git;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.git = {
     enable = mkEnableOption "git module";
   };
@@ -132,7 +134,7 @@ in
       includes = [
         {
           condition = "hasconfig:remote.*.url:git@github.com:**/**";
-          path = config.age.secrets."git-config-github".path;
+          inherit (config.age.secrets."git-config-github") path;
         }
       ];
     };
@@ -153,6 +155,5 @@ in
         };
       };
     };
-
   };
 }

@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.fingerprint;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.fingerprint = {
     enable = mkEnableOption "fingerprint module";
   };

@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.gtk;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.gtk = {
     enable = mkEnableOption "gtk module";
   };
@@ -57,9 +60,7 @@ in
           gtk-xft-hintstyle = "hintfull";
           gtk-xft-rgba = "rgb";
         };
-
       };
     };
   };
 }
-

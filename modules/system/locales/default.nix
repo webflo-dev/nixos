@@ -1,16 +1,19 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.locales;
   inherit (lib) mkOption types;
-in
-{
+in {
   options.webflo.modules.locales = {
     timeZone = mkOption {
       description = "the time zone used when displaying times and dates";
       type = types.str;
       default = "Europe/Paris";
     };
-    
+
     defaultLocale = mkOption {
       description = "determines the language for program messages";
       type = types.str;
@@ -34,7 +37,7 @@ in
     time.timeZone = cfg.timeZone;
 
     i18n = {
-      defaultLocale = cfg.defaultLocale;
+      inherit (cfg) defaultLocale;
 
       extraLocaleSettings = {
         LC_ADDRESS = cfg.dateTimeLocale;
@@ -48,10 +51,12 @@ in
         LC_TIME = cfg.dateTimeLocale;
       };
 
-      supportedLocales = [
-        "en_US.UTF-8"
-        "fr_FR.UTF-8"
-      ] ++ [ cfg.defaultLocale ];
+      supportedLocales =
+        [
+          "en_US.UTF-8"
+          "fr_FR.UTF-8"
+        ]
+        ++ [cfg.defaultLocale];
     };
 
     console.keyMap = cfg.consoleKeyMap;

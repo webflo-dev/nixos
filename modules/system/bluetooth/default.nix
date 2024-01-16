@@ -1,9 +1,11 @@
-{ config, lib, ... }:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.webflo.modules.bluetooth;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.bluetooth = {
     enable = mkEnableOption "Bluetooth module";
   };

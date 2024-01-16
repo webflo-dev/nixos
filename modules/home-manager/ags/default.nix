@@ -1,9 +1,13 @@
-{ config, lib, pkgs, inputs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
   cfg = config.webflo.modules.ags;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.ags = {
     enable = mkEnableOption "AGS module";
   };
@@ -13,7 +17,6 @@ in
   ];
 
   config = mkIf cfg.enable {
-
     home.packages = [
       pkgs.sassc
     ];

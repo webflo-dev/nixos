@@ -34,73 +34,31 @@
   } @ inputs: let
     moduleList = type: folder: map (x: ./. + "/${type}/${folder}/${x}") (builtins.attrNames (builtins.readDir (./. + "/${type}/${folder}")));
 
-    mkHost = {
-      hostname,
-      username,
-      userId ? 1000,
-      ...
-    }:
+    mkHost = hostName:
       nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
         };
         modules =
-          ### Custom modules
           (moduleList "modules" "system")
-          ++ (moduleList "presets" "system")
           ++ (moduleList "modules" "webflo")
           ++ [
-            ### Host specific configuration
-
-            ./hosts/${hostname}/hardware-configuration.nix
-            ./hosts/${hostname}/system.nix
-
-            ### Home-manager
             {
-              home-manager.users.${username} = {
-                imports =
-                  (moduleList "modules" "home-manager")
-                  ++ (moduleList "presets" "home-manager");
-              };
+              home-manager.sharedModules = moduleList "modules" "home-manager";
             }
-
-            ### Required configuration
-            {
-              system.stateVersion = "23.11";
-              webflo.settings = {
-                hostName = hostname;
-                user = {
-                  name = username;
-                  uid = userId;
-                };
-              };
-
-              home-manager.users.${username} = {
-                home.stateVersion = "23.11";
-                imports = [
-                  ./hosts/${hostname}/home-manager.nix
-                ];
-              };
-            }
+          ]
+          ++ [
+            {webflo.settings.hostName = hostName;}
+            ./hosts/${hostName}
           ];
       };
+
+    mkHosts = builtins.listToAttrs (builtins.map (host: {
+        name = host;
+        value = mkHost host;
+      })
+      (builtins.attrNames (builtins.readDir ./hosts)));
   in {
-    nixosConfigurations = {
-      bureau = mkHost {
-        hostname = "bureau";
-        username = "florent";
-      };
-
-      # xps13 = mkHost {
-      #   hostname = "xps13";
-      #   username = "florent";
-      # };
-
-      # vm = mkHost {
-      #   hostname = "vm";
-      #   username = "florent";
-      #   sharefolder = "webflo";
-      # };
-    };
+    nixosConfigurations = mkHosts;
   };
 }

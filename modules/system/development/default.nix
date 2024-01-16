@@ -6,7 +6,7 @@
 }: let
   cfg = config.webflo.modules.development;
   inherit (lib) mkEnableOption mkIf;
-  settings = config.webflo.settings;
+  inherit (config.webflo) settings;
 in {
   options.webflo.modules.development = {
     enable = mkEnableOption "development module";

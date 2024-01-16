@@ -1,5 +1,8 @@
-{ config, lib, ... }:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.webflo.modules.xdg;
   inherit (lib) mkEnableOption mkIf;
 
@@ -14,8 +17,7 @@ let
   XDG_DOCUMENTS_DIR = "${homeDir}/Documents";
   XDG_PICTURES_DIR = "${homeDir}/Pictures";
   XDG_VIDEOS_DIR = "${homeDir}/Videos";
-in
-{
+in {
   options.webflo.modules.xdg = {
     enable = mkEnableOption "XDG module";
   };

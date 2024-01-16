@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.docker;
   inherit (lib) mkEnableOption mkOption mkIf types;
-in
-{
+in {
   options.webflo.modules.docker = {
     enable = mkEnableOption "Docker module";
     dockerGroupMembers = mkOption {
@@ -17,13 +20,13 @@ in
       enable = true;
       daemon.settings = {
         # storage-driver = "overlay2";
-        features = { buildkit = true; };
+        features = {buildkit = true;};
         experimental = true;
         no-new-privileges = true;
       };
       autoPrune = {
         enable = true;
-        flags = [ "--all" ];
+        flags = ["--all"];
         dates = "weekly";
       };
     };

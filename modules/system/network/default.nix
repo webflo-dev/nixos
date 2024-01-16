@@ -1,11 +1,13 @@
-{ config, pkgs, ... }:
-let
-  settings = config.webflo.settings;
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  inherit (config.webflo) settings;
+in {
   networking = {
     networkmanager.enable = true;
-    hostName = settings.hostName;
+    inherit (settings) hostName;
   };
 
   environment.systemPackages = with pkgs; [

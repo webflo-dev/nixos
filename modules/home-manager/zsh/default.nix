@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.zsh;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.zsh = {
     enable = mkEnableOption "zsh module";
   };
@@ -11,108 +14,117 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       zsh-fzf-tab
+      fd
     ];
 
-    programs.zsh =
-      {
+    programs.zsh = {
+      enable = true;
+      dotDir = ".config/zsh";
+
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      syntaxHighlighting = {
         enable = true;
-        dotDir = ".config/zsh";
-
-        enableAutosuggestions = true;
-        syntaxHighlighting.enable = true;
-        enableCompletion = true;
-        autocd = true;
-        cdpath = [ ];
-        defaultKeymap = "emacs";
-        dirHashes = {
-          # dl = "$HOME/Downloads";
+        styles = {
+          "alias" = "fg=magenta";
         };
-
-        history = {
-          path = "${config.xdg.dataHome}/zsh/zsh_history";
-          ignorePatterns = [
-            "cd"
-            "ranger"
-            "kill"
-          ];
-          save = 10000;
-          share = true;
-          size = 10000;
-        };
-
-        envExtra = builtins.readFile ./env-extra.zsh;
-
-        initExtraFirst = builtins.readFile ./init-extra-first.zsh;
-
-        initExtra = builtins.readFile ./init-extra.zsh;
-
-        shellAliases = {
-          # ".." = "cd ..";
-          # "..." = "cd ../..";
-          # "...." = "cd ../../..";
-
-          # grep = "grep --color=auto";
-          # sgrep = "grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}";
-          # fgrep = "fgrep --color=auto";
-          # egrep = "egrep --color=auto";
-          less = "less -R";
-
-          # rm = "rm -i";
-          # cp = "cp -i";
-          # mv = "mv -i";
-          # mkdir = "mkdir -p";
-
-
-          view = "bat";
-          cat = "bat -p";
-          more = "bat -p";
-
-          # ls='ls -l -h -v --group-directories-first --time-style=+"%Y-%m-%d %H:%M" --color=auto -F --tabsize=0 --literal --show-control-chars --color=always --human-readable'
-          # la='ls -a'
-          ls = "eza -la -L 3 --git --group-directories-first --ignore-glob='node_modules|.git' --icons";
-          la = "ls";
-          l = "ls";
-
-          # path = "echo -e \${PATH//:/\\n}";
-
-          ssh-add-keys = "eval '$(ssh-agent -s)' && ssh-add";
-
-          # logout = "loginctl terminate-session self";
-          # poweroff = "systemctl poweroff";
-
-          words = "rg --pretty --with-filename --hidden --follow -g '!.git'";
-          files = "fd --type f --hidden --follow --exclude.git";
-
-          startx = "startx $XDG_CONFIG_HOME/X11/xinitrc";
-          startw = "Hyprland";
-
-          wget = "wget --hsts-file='$XDG_DATA_HOME/wget-hsts'";
-          du = "gdu";
-
-          uuid-clip = "uuidgen | tr -d \\\\n | wl-copy";
-        };
-
-        shellGlobalAliases = {
-          UUID = "$(uuidgen | tr -d \\\\n)";
-        };
-
-        plugins = [
-          {
-            name = "zsh-nix-shell";
-            file = "nix-shell.plugin.zsh";
-            src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
-          }
-        ];
+        highlighters = ["main" "brackets" "pattern"];
       };
+
+      cdpath = [];
+      defaultKeymap = "emacs";
+      dirHashes = {
+        dl = "\$HOME/Downloads";
+        config = "\$XDG_CONFIG_HOME";
+        locale = "\XDG_DATA_HOME";
+        state = "\XDG_STATE_HOME";
+      };
+
+      history = {
+        path = "${config.xdg.dataHome}/zsh/zsh_history";
+        ignorePatterns = [
+          "cd"
+          "ranger"
+          "kill"
+        ];
+        save = 10000;
+        share = true;
+        size = 10000;
+      };
+
+      envExtra = builtins.readFile ./env-extra.zsh;
+
+      initExtraFirst = builtins.readFile ./init-extra-first.zsh;
+
+      initExtra = builtins.readFile ./init-extra.zsh;
+
+      shellAliases = {
+        ".." = "cd ..";
+        "..." = "cd ../..";
+        "...." = "cd ../../..";
+
+        path = "echo -e \${PATH//:/\\\\n}";
+
+        rm = "rm -i";
+        cp = "cp -i";
+        mv = "mv -i";
+        mkdir = "mkdir -p";
+
+        grep = "grep --color=auto";
+        sgrep = "grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}";
+        fgrep = "fgrep --color=auto";
+        egrep = "egrep --color=auto";
+
+        logout = "loginctl terminate-session self";
+        poweroff = "systemctl poweroff";
+
+        less = "less -R";
+
+        view = "bat";
+        cat = "bat -p";
+        more = "bat -p";
+
+        # ls='ls -l -h -v --group-directories-first --time-style=+"%Y-%m-%d %H:%M" --color=auto -F --tabsize=0 --literal --show-control-chars --color=always --human-readable'
+        # la='ls -a'
+        ls = "eza -la -L 3 --git --group-directories-first --ignore-glob='node_modules|.git' --icons";
+        la = "ls";
+        l = "ls";
+
+        ssh-add-keys = "eval '\$(ssh-agent -s)' && ssh-add";
+
+        words = "rg --pretty --with-filename --hidden --follow -g '!.git'";
+        files = "fd --type f --hidden --follow --exclude.git";
+
+        startx = "startx \$XDG_CONFIG_HOME/X11/xinitrc";
+        startw = "Hyprland";
+
+        wget = "wget --hsts-file='\$XDG_DATA_HOME/wget-hsts'";
+        du = "gdu";
+
+        uuid-clip = "uuidgen | tr -d \\\\n | wl-copy";
+      };
+
+      shellGlobalAliases = {
+        UUID = "\$(uuidgen | tr -d \\\\n)";
+      };
+
+      plugins = [
+        {
+          name = "zsh-nix-shell";
+          file = "nix-shell.plugin.zsh";
+          src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
+        }
+      ];
+    };
 
     programs.fzf = {
       enable = true;
       enableZshIntegration = true;
       defaultCommand = "fd --type f";
       fileWidgetCommand = "fd --type f";
-      fileWidgetOptions = [ "--preview 'head {}'" ];
+      fileWidgetOptions = ["--preview 'head {}'"];
       changeDirWidgetCommand = "fd --type d";
-      changeDirWidgetOptions = [ "--preview 'tree -C {} | head -200'" ];
+      changeDirWidgetOptions = ["--preview 'tree -C {} | head -200'"];
       historyWidgetOptions = [
         "--sort"
         "--exact"
@@ -208,7 +220,7 @@ in
 
         python = {
           symbol = " ";
-          format = " [$symbol$pyenv_prefix($version)(\($virtualenv\))]($style)";
+          format = " [$symbol$pyenv_prefix($version)(($virtualenv))]($style)";
         };
 
         rust = {
@@ -219,7 +231,6 @@ in
         sudo = {
           format = " [as $symbol]";
         };
-
 
         time = {
           format = " [$time]($style)";
@@ -232,4 +243,3 @@ in
     };
   };
 }
-

@@ -1,4 +1,9 @@
-{lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.webflo.settings;
   inherit (lib) mkOption types;
 in {
   options.webflo.settings = {
@@ -18,8 +23,11 @@ in {
       };
       refreshRate = mkOption {type = types.int;};
     };
-    desktop = {
-      wallpaper = mkOption {type = types.path;};
+  };
+
+  config = {
+    home-manager.extraSpecialArgs = {
+      settings = cfg;
     };
   };
 }

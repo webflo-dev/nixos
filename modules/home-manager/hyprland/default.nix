@@ -1,18 +1,20 @@
-{ config, lib, ... }:
-let
+{
+  config,
+  lib,
+  settings,
+  ...
+}: let
   cfg = config.webflo.modules.hyprland;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.hyprland = {
     enable = mkEnableOption "hyprland module";
   };
 
-  config =
-    let
-      wallpaper_target = "wallpaper.jpg";
-      wallpaper_source = ./wallpapers/house_by_the_lake_drawing-wallpaper-1920x1200.jpg;
-    in
+  config = let
+    wallpaper_target = "wallpaper.jpg";
+    wallpaper_source = ./wallpapers/house_by_the_lake_drawing-wallpaper-1920x1200.jpg;
+  in
     mkIf cfg.enable {
       xdg.configFile."hypr/${wallpaper_target}".source = wallpaper_source;
 
@@ -50,9 +52,12 @@ in
             workspace_swipe = true;
           };
 
+          # monitor = [
+          #   "DP-2, 3840x2160@144, 0x0, 1, bitdepth,10" # not sure if bitdepth is required
+          #   "eDP-1, 1920x1200@60, 0x0, 1"
+          # ];
           monitor = [
-            "DP-2, 3840x2160@144, 0x0, 1, bitdepth,10" # not sure if bitdepth is required
-            "eDP-1, 1920x12000@60, 0x0, 1"
+            "${settings.monitor.name}, ${toString settings.monitor.resolution.width}x${toString settings.monitor.resolution.height}@${toString settings.monitor.refreshRate}, 0x0, 1" # not sure if bitdepth is required
           ];
 
           general = {
@@ -79,7 +84,7 @@ in
 
             drop_shadow = true;
             # col.shadow = rgba(1a1a1aee)
-            # col.shadow_inactive = 
+            # col.shadow_inactive =
             # shadow_offset = [0,0]
             # shadow_scale = 1
 
@@ -145,7 +150,7 @@ in
             preserve_split = true;
             force_split = 2;
             # col.group_border = $colors_dark
-            # col.group_border_active	= $colors_lime 
+            # col.group_border_active	= $colors_lime
             # split_width_multiplier = 0.75
           };
 
@@ -154,7 +159,6 @@ in
             special_scale_factor = 0.3;
             no_gaps_when_only = false;
           };
-
 
           "$terminal" = "terminal";
 
@@ -175,7 +179,6 @@ in
             # volume binds
             ",XF86AudioMute,exec, volume --toggle"
             "SHIFT,XF86AudioMute,exec, volume --toggle-mic"
-
 
             ",Print,exec, ags -r 'screenshot.screenshot()' "
             "SHIFT,Print,exec, ags -r 'screenrecord.toggle()'"
@@ -204,7 +207,6 @@ in
             "SUPER SHIFT, k, movewindow, u"
             "SUPER SHIFT, j, movewindow, d"
 
-
             "SUPER, ampersand, workspace, 1"
             "SUPER, eacute, workspace, 2"
             "SUPER, quotedbl, workspace, 3"
@@ -216,7 +218,6 @@ in
             "SUPER SHIFT, quotedbl, movetoworkspace, 3"
             "SUPER SHIFT, apostrophe, movetoworkspace, 4"
             "SUPER SHIFT, parenleft, movetoworkspace, 5"
-
 
             # Toggle special workspace
             "SUPER ALT, Space, togglespecialworkspace, 1"
@@ -319,7 +320,6 @@ in
             "workspace 4, class:^(microsoft-edge)$, title:^(.*)(- Personal - )(.*)$"
             "workspace 3, class:^(Slack)$"
 
-
             ### Blueman
             "float,class:^(blueman-manager)$"
             "move center,class:^(blueman-manager)$"
@@ -337,11 +337,7 @@ in
             # "playerctld daemon"
             "ags"
           ];
-
         };
       };
     };
 }
-      
-    
-    

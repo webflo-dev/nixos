@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.kitty;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.kitty = {
     enable = mkEnableOption "kitty module";
   };
@@ -13,7 +16,6 @@ in
       enable = true;
 
       shellIntegration = {
-        mode = "no-cursor";
         enableZshIntegration = true;
       };
 
@@ -83,7 +85,6 @@ in
         selection_background = "#aeb7b6";
         url_color = "#64a8d8";
 
-
         foreground = "#b6beca";
         background = "#171a1f";
 
@@ -119,11 +120,9 @@ in
         color7 = "#d8e2e1";
         color15 = "#ebf6f5";
 
-
         # Cursor
         cursor = "#FFFFFF";
         cursor_text_color = "#292a2b";
-
       };
 
       keybindings = {
@@ -166,7 +165,6 @@ in
         "ctrl+shift+kp_subtract" = "change_font_size all -2.0";
         "ctrl+shift+backspace" = "change_font_size all 0";
 
-
         "ctrl+shift+g" = "show_last_command_output";
         "ctrl+shift+z" = "scroll_to_prompt -1";
         "ctrl+shift+x" = "scroll_to_prompt 1";
@@ -180,7 +178,6 @@ in
         "ctrl+shift+home" = "scroll_home";
         "ctrl+shift+end" = "scroll_end";
       };
-
     };
   };
 }

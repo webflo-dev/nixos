@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.webflo.modules.core;
   inherit (lib) mkOption types;
-in
-{
+in {
   options.webflo.modules.core = {
     cleanOptions = mkOption {
       description = "Options given to nix-collect-garbage when the garbage collector is run automatically.";

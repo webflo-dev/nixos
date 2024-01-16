@@ -1,9 +1,13 @@
-{ config, lib, pkgs, inputs, ...}:
-let
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
   cfg = config.webflo.modules.desktop.thunar;
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.webflo.modules.desktop.thunar = {
     enable = mkEnableOption "Thunar module";
   };

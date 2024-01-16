@@ -1,10 +1,15 @@
 # vanta agent service
-{ config, lib, pkgs, inputs, vars, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  vars,
+  ...
+}: let
   cfg = config.webflo.modules.vanta-agent;
   inherit (lib) mkEnableOption mkOption mkIf types;
-in
-{
+in {
   options.webflo.modules.vanta-agent = {
     enable = mkEnableOption "Vanta agent";
     keyFileName = mkOption {
@@ -18,7 +23,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     environment.systemPackages = [
       inputs.webflo-pkgs.packages.${vars.system}.vanta-agent
     ];
