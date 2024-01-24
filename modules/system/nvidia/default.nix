@@ -18,8 +18,10 @@ in {
       driSupport32Bit = true;
       extraPackages = with pkgs; [
         libva
+        libvdpau
         vaapiVdpau
         libvdpau-va-gl
+        # nvidia-vaapi-driver
       ];
     };
 
@@ -50,6 +52,13 @@ in {
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+
+    environment.sessionVariables = {
+      LIBVA_DRIVER_NAME = "nvidia";
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      WLR_NO_HARDWARE_CURSORS = "1";
     };
   };
 }

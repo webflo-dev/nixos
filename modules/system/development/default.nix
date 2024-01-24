@@ -5,17 +5,17 @@
   ...
 }: let
   cfg = config.webflo.modules.development;
-  inherit (lib) mkEnableOption mkIf;
-  inherit (config.webflo) settings;
+  inherit (lib) mkEnableOption mkIf mkOption types;
 in {
   options.webflo.modules.development = {
     enable = mkEnableOption "development module";
+    username = mkOption {type = types.str;};
   };
 
   config = mkIf cfg.enable {
     security.pam.loginLimits = [
       {
-        domain = settings.user.name;
+        domain = cfg.username;
         type = "soft";
         item = "nofile";
         value = "8192";
@@ -24,9 +24,19 @@ in {
 
     environment.systemPackages = with pkgs; [
       inotify-tools
+
+      # nix
+      statix
+      alejandra
+
+      # languages
       go
       rustup
+
+      # GUI
       vscode
+
+      # TUI
       gitui
     ];
 

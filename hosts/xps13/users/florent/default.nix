@@ -1,10 +1,15 @@
 {pkgs, ...}: {
+  home.stateVersion = "23.11";
+
   webflo.modules = {
     ags.enable = true;
     fonts.enable = true;
     git.enable = true;
     gtk.enable = true;
-    hyprland.enable = true;
+    hyprland = {
+      enable = true;
+      wallpaper = ./wallpapers/house_by_the_lake_drawing-wallpaper-1920x1200;
+    };
     kitty.enable = true;
     mimeApps.enable = true;
     neofetch.enable = true;

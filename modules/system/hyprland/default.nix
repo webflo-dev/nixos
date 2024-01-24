@@ -50,21 +50,13 @@ in {
     security.polkit.enable = true;
     services.gnome.gnome-keyring.enable = true;
 
-    environment.sessionVariables =
-      {
-        NIXOS_OZONE_WL = "1";
-        MOZ_ENABLE_WAYLAND = "1";
-        GTK_USE_PORTAL = "1";
-        SDL_VIDEODRIVER = "wayland";
-      }
-      // mkIf nvidiaCfg.enable {
-        ### Nvidia
-        LIBVA_DRIVER_NAME = "nvidia";
-        XDG_SESSION_TYPE = "wayland";
-        GBM_BACKEND = "nvidia-drm";
-        __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-        WLR_NO_HARDWARE_CURSORS = "1";
-      };
+    environment.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      MOZ_ENABLE_WAYLAND = "1";
+      GTK_USE_PORTAL = "1";
+      SDL_VIDEODRIVER = "wayland";
+      XDG_SESSION_TYPE = "wayland";
+    };
 
     systemd = {
       user.services.polkit-gnome-authentication-agent-1 = {

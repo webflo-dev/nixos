@@ -1,22 +1,21 @@
 {
   config,
   lib,
-  settings,
   ...
 }: let
   cfg = config.webflo.modules.hyprland;
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkOption types;
 in {
   options.webflo.modules.hyprland = {
     enable = mkEnableOption "hyprland module";
+    wallpaper = mkOption {type = types.path;};
   };
 
   config = let
-    wallpaper_target = "wallpaper.jpg";
-    wallpaper_source = ./wallpapers/house_by_the_lake_drawing-wallpaper-1920x1200.jpg;
+    wallpaper_target = "hypr/wallpaper.jpg";
   in
     mkIf cfg.enable {
-      xdg.configFile."hypr/${wallpaper_target}".source = wallpaper_source;
+      xdg.configFile.${wallpaper_target}.source = cfg.wallpaper;
 
       wayland.windowManager.hyprland = {
         enable = true;
@@ -52,12 +51,10 @@ in {
             workspace_swipe = true;
           };
 
-          # monitor = [
-          #   "DP-2, 3840x2160@144, 0x0, 1, bitdepth,10" # not sure if bitdepth is required
-          #   "eDP-1, 1920x1200@60, 0x0, 1"
-          # ];
           monitor = [
-            "${settings.monitor.name}, ${toString settings.monitor.resolution.width}x${toString settings.monitor.resolution.height}@${toString settings.monitor.refreshRate}, 0x0, 1" # not sure if bitdepth is required
+            # "DP-2, 3840x2160@144, 0x0, 1, bitdepth,10" # not sure if bitdepth is required
+            "DP-1, 3840x2160@144, 0x0, 1, bitdepth,10"
+            "eDP-1, 1920x1200@60, 0x0, 1"
           ];
 
           general = {
@@ -331,7 +328,7 @@ in {
             #"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
             #"gnome-keyring-daemon --start --components=secrets"
             # "~/.local/bin/gtkthemes "
-            "swaybg -m fill -i $XDG_CONFIG_HOME/hypr/${wallpaper_target}"
+            "swaybg -m fill -i $XDG_CONFIG_HOME/${wallpaper_target}"
             "nm-applet --indicator"
             "blueman-applet"
             # "playerctld daemon"

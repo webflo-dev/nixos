@@ -20,7 +20,7 @@ in {
       };
 
       font = {
-        name = "monospace";
+        name = "Cartograph CF";
         size = 10;
       };
 

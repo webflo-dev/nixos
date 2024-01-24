@@ -2,8 +2,9 @@
   description = "NixOS & Home manager (webflo edition)";
 
   inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-master.url = "github:nixos/nixpkgs";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     webflo-pkgs = {
       url = "github:webflo-dev/nixos-packages";
@@ -30,35 +31,21 @@
     self,
     nixpkgs,
     home-manager,
+    agenix,
     ...
   } @ inputs: let
-    moduleList = type: folder: map (x: ./. + "/${type}/${folder}/${x}") (builtins.attrNames (builtins.readDir (./. + "/${type}/${folder}")));
+    lib = import ./lib {inherit inputs nixpkgs;};
 
-    mkHost = hostName:
-      nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-        };
-        modules =
-          (moduleList "modules" "system")
-          ++ (moduleList "modules" "webflo")
-          ++ [
-            {
-              home-manager.sharedModules = moduleList "modules" "home-manager";
-            }
-          ]
-          ++ [
-            {webflo.settings.hostName = hostName;}
-            ./hosts/${hostName}
-          ];
+    hosts = {
+      bureau = {
+        florent = 1000;
       };
-
-    mkHosts = builtins.listToAttrs (builtins.map (host: {
-        name = host;
-        value = mkHost host;
-      })
-      (builtins.attrNames (builtins.readDir ./hosts)));
+      xps13 = {
+        florent = 1000;
+      };
+    };
   in {
-    nixosConfigurations = mkHosts;
+    nixosConfigurations = lib.mkNixosConfigurations hosts;
+    homeConfigurations = lib.mkHomeManagerConfigurations hosts;
   };
 }
