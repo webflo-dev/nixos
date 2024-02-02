@@ -34,18 +34,50 @@
     agenix,
     ...
   } @ inputs: let
-    lib = import ./lib {inherit inputs nixpkgs;};
+    inherit (nixpkgs) lib;
+    inherit
+      (import ./lib {inherit lib;})
+      modules
+      nixosSystemModule
+      homeManagerUserModule
+      mkNixosConfigurations
+      mkHomeManagerConfigurations
+      ;
 
-    hosts = {
-      bureau = {
-        florent = 1000;
+    hosts = import ./hosts;
+
+    mkNixosSystem = {
+      hostName,
+      users,
+      ...
+    }:
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        modules =
+          (modules "defaults")
+          ++ (modules "system")
+          ++ (modules "webflo")
+          ++ [{home-manager.sharedModules = modules "home-manager";}]
+          ++ [(nixosSystemModule {inherit hostName users;})]
+          ++ [./hosts/${hostName}];
       };
-      xps13 = {
-        florent = 1000;
+
+    mkHomeManagerConfiguration = {
+      hostName,
+      username,
+      uid,
+      ...
+    }:
+      inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {system = "x86_64-linux";};
+        extraSpecialArgs = {inherit inputs;};
+        modules =
+          (modules "home-manager")
+          ++ [(homeManagerUserModule {inherit username uid;})]
+          ++ [./hosts/${hostName}/users/${username}];
       };
-    };
   in {
-    nixosConfigurations = lib.mkNixosConfigurations hosts;
-    homeConfigurations = lib.mkHomeManagerConfigurations hosts;
+    nixosConfigurations = mkNixosConfigurations mkNixosSystem hosts;
+    homeConfigurations = mkHomeManagerConfigurations mkHomeManagerConfiguration hosts;
   };
 }
