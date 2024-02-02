@@ -1,0 +1,12 @@
+{
+  webflo.settings = {
+    monitor = {
+      name = "eDP-1";
+      resolution = {
+        width = 1920;
+        height = 1200;
+      };
+      refreshRate = 60;
+    };
+  };
+}

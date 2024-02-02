@@ -1,4 +1,5 @@
 {
+  hostName,
   username,
   uid,
   ...
@@ -11,6 +12,7 @@
 in {
   imports = [
     inputs.agenix.homeManagerModules.default
+    ../hosts/${hostName}/users/${username}
   ];
 
   nixpkgs.config.allowUnfree = true;

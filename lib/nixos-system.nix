@@ -15,13 +15,6 @@
     shell = pkgs.zsh;
     inherit uid;
   };
-
-  mkHomeManagerUser = username: uid: {
-    imports = [
-      (homeManagerUserModule {inherit username uid;})
-      ../hosts/${hostName}/users/${username}
-    ];
-  };
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -40,6 +33,8 @@ in {
     extraSpecialArgs = {inherit inputs;};
     useGlobalPkgs = true;
     useUserPackages = true;
-    users = builtins.mapAttrs mkHomeManagerUser users;
+    users = builtins.mapAttrs (username: uid:
+      homeManagerUserModule {inherit hostName username uid;})
+    users;
   };
 }

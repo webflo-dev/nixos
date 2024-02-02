@@ -39,10 +39,15 @@
       (import ./lib {inherit lib;})
       modules
       nixosSystemModule
-      homeManagerUserModule
       mkNixosConfigurations
       mkHomeManagerConfigurations
+      homeManagerUserModule
       ;
+
+    homeManagerSharedModules = hostName:
+      (modules "home-manager")
+      ++ (modules "webflo/home-manager")
+      ++ [./hosts/${hostName}/users];
 
     hosts = import ./hosts;
 
@@ -56,8 +61,7 @@
         modules =
           (modules "defaults")
           ++ (modules "system")
-          ++ (modules "webflo")
-          ++ [{home-manager.sharedModules = modules "home-manager";}]
+          ++ [{home-manager.sharedModules = homeManagerSharedModules hostName;}]
           ++ [(nixosSystemModule {inherit hostName users;})]
           ++ [./hosts/${hostName}];
       };
@@ -72,9 +76,8 @@
         pkgs = import nixpkgs {system = "x86_64-linux";};
         extraSpecialArgs = {inherit inputs;};
         modules =
-          (modules "home-manager")
-          ++ [(homeManagerUserModule {inherit username uid;})]
-          ++ [./hosts/${hostName}/users/${username}];
+          (homeManagerSharedModules hostName)
+          ++ [(homeManagerUserModule {inherit hostName username uid;})];
       };
   in {
     nixosConfigurations = mkNixosConfigurations mkNixosSystem hosts;
