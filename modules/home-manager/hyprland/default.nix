@@ -331,6 +331,7 @@ in {
             "swaybg -m fill -i $XDG_CONFIG_HOME/${wallpaper_target}"
             "nm-applet --indicator"
             "blueman-applet"
+            "solaar -w hide -b symbolic & disown"
             # "playerctld daemon"
             "ags"
           ];

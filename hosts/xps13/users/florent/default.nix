@@ -23,6 +23,7 @@
     # CLI
     croc
     ranger
+    yazi
 
     # Browser
     microsoft-edge
