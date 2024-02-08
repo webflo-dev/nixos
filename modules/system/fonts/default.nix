@@ -5,25 +5,40 @@
   inputs,
   ...
 }: let
-  cfg = config.webflo.modules.desktop.fonts;
-  inherit (lib) mkEnableOption mkIf;
-  defaultFont = "Luciole";
-  monospaceFont = "Cartograph CF";
+  cfg = config.webflo.modules.fonts;
+  inherit (lib) mkEnableOption mkIf types mkOption;
 in {
-  options.webflo.modules.desktop.fonts = {
+  options.webflo.modules.fonts = {
     enable = mkEnableOption "Fonts module";
+
+    defaultFont = mkOption {
+      type = types.str;
+      default = "Luciole";
+    };
+
+    monospaceFont = mkOption {
+      type = types.str;
+      default = "Cartograph CF";
+    };
+
+    extraPackages = mkOption {
+      type = types.listOf types.path;
+      default = [];
+    };
   };
 
   config = mkIf cfg.enable {
     fonts = {
-      packages = with pkgs; [
-        noto-fonts-color-emoji
-        # monaspace
-        (nerdfonts.override {
-          fonts = ["NerdFontsSymbolsOnly"];
-        })
-        inputs.webflo-pkgs.packages.${pkgs.system}.font-luciole
-      ];
+      packages = with pkgs;
+        [
+          noto-fonts-color-emoji
+          # monaspace
+          (nerdfonts.override {
+            fonts = ["NerdFontsSymbolsOnly"];
+          })
+          inputs.webflo-pkgs.packages.${pkgs.system}.font-luciole
+        ]
+        ++ cfg.extraPackages;
 
       fontconfig = {
         enable = true;
@@ -39,17 +54,17 @@ in {
 
         defaultFonts = {
           serif = [
-            defaultFont
+            cfg.defaultFont
             "Noto Color Emoji"
             "Symbols Nerd Font"
           ];
           sansSerif = [
-            defaultFont
+            cfg.defaultFont
             "Noto Color Emoji"
             "Symbols Nerd Font"
           ];
           monospace = [
-            monospaceFont
+            cfg.monospaceFont
             "Noto Color Emoji"
             "Symbols Nerd Font"
           ];

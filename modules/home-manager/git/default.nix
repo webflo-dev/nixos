@@ -1,24 +1,90 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.webflo.modules.git;
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf mkOption types mkDefault;
+
+  includeModule = types.submodule ({config, ...}: {
+    options = {
+      condition = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = ''
+          Include this configuration only when {var}`condition`
+          matches. Allowed conditions are described in
+          {manpage}`git-config(1)`.
+        '';
+      };
+
+      path = mkOption {
+        type = types.either types.str types.path;
+        description = "Path of the configuration file to include.";
+      };
+
+      contents = mkOption {
+        type = types.attrsOf types.anything;
+        default = {};
+        # example = literalExpression ''
+        #   {
+        #     user = {
+        #       email = "bob@work.example.com";
+        #       name = "Bob Work";
+        #       signingKey = "1A2B3C4D5E6F7G8H";
+        #     };
+        #     commit = {
+        #       gpgSign = true;
+        #     };
+        #   };
+        # '';
+        # description = ''
+        #   Configuration to include. If empty then a path must be given.
+
+        #   This follows the configuration structure as described in
+        #   {manpage}`git-config(1)`.
+        # '';
+      };
+
+      contentSuffix = mkOption {
+        type = types.str;
+        default = "gitconfig";
+        # description = ''
+        #   Nix store name for the git configuration text file,
+        #   when generating the configuration text from nix options.
+        # '';
+      };
+    };
+  });
 in {
   options.webflo.modules.git = {
-    enable = mkEnableOption "git module";
+    enable = mkEnableOption "git";
+
+    includes = mkOption {
+      type = types.listOf includeModule;
+      default = [];
+      # example = literalExpression ''
+      #   [
+      #     { path = "~/path/to/config.inc"; }
+      #     {
+      #       path = "~/path/to/conditional.inc";
+      #       condition = "gitdir:~/src/dir";
+      #     }
+      #   ]
+      # '';
+    };
   };
 
   config = mkIf cfg.enable {
-    age = {
-      identityPaths = [
-        "${config.home.homeDirectory}/.ssh/agenix-git-config-github"
-      ];
-      secrets = {
-        git-config-github.file = ../../../secrets/git-config-github.age;
-      };
-    };
+    # age = {
+    #   identityPaths = [
+    #     "${config.home.homeDirectory}/.ssh/agenix-git-config-github"
+    #   ];
+    #   secrets = {
+    #     git-config-github.file = ../../../secrets/git-config-github.age;
+    #   };
+    # };
 
     programs.git = {
       enable = true;
@@ -131,13 +197,19 @@ in {
         prune-branches = "!git remote prune origin && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D";
       };
 
-      includes = [
-        {
-          condition = "hasconfig:remote.*.url:git@github.com:**/**";
-          inherit (config.age.secrets."git-config-github") path;
-        }
-      ];
+      includes = cfg.includes;
+      # includes = [
+      #   {
+      #     condition = "hasconfig:remote.*.url:git@github.com:**/**";
+      #     inherit (config.age.secrets."git-config-github") path;
+      #   }
+      # ];
     };
+
+    home.packages = with pkgs; [
+      gitui
+      lazygit
+    ];
 
     programs.git.delta = {
       enable = true;

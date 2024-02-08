@@ -8,7 +8,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.neofetch = {
-    enable = mkEnableOption "neofetch module";
+    enable = mkEnableOption "neofetch";
   };
 
   config = mkIf cfg.enable {

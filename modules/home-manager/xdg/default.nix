@@ -19,7 +19,7 @@
   XDG_VIDEOS_DIR = "${homeDir}/Videos";
 in {
   options.webflo.modules.xdg = {
-    enable = mkEnableOption "XDG module";
+    enable = mkEnableOption "XDG environment variables";
   };
 
   config = mkIf cfg.enable {

@@ -8,7 +8,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.ranger = {
-    enable = mkEnableOption "ranger module";
+    enable = mkEnableOption "ranger";
   };
 
   config = mkIf cfg.enable {

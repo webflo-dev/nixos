@@ -5,47 +5,79 @@
   ...
 }: let
   cfg = config.webflo.modules.development;
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib) mkEnableOption mkIf mkOption types mkMerge;
 in {
   options.webflo.modules.development = {
     enable = mkEnableOption "development module";
-    username = mkOption {type = types.str;};
-  };
-
-  config = mkIf cfg.enable {
-    security.pam.loginLimits = [
-      {
-        domain = cfg.username;
-        type = "soft";
-        item = "nofile";
-        value = "8192";
-      }
-    ];
-
-    environment.systemPackages = with pkgs; [
-      inotify-tools
-
-      # nix
-      statix
-      alejandra
-
-      # languages
-      go
-      rustup
-
-      # GUI
-      vscode
-
-      # TUI
-      gitui
-    ];
-
-    programs = {
-      direnv = {
-        enable = true;
-        loadInNixShell = true;
-        nix-direnv.enable = true;
+    usernames = mkOption {
+      type = types.listOf types.str;
+      default = [];
+    };
+    go = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+    };
+    rust = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+    };
+    nix = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
       };
     };
   };
+
+  config = mkIf cfg.enable (mkMerge [
+    {
+      security.pam.loginLimits =
+        builtins.map (
+          username: {
+            domain = username;
+            type = "soft";
+            item = "nofile";
+            value = "8192";
+          }
+        )
+        cfg.usernames;
+
+      environment.systemPackages = with pkgs; [
+        inotify-tools
+      ];
+
+      programs = {
+        direnv = {
+          enable = true;
+          loadInNixShell = true;
+          nix-direnv.enable = true;
+        };
+      };
+    }
+
+    (mkIf cfg.go.enable {
+      environment.systemPackages = with pkgs; [
+        go
+      ];
+    })
+
+    (mkIf cfg.rust.enable {
+      environment.systemPackages = with pkgs; [
+        rustup
+      ];
+    })
+
+    (mkIf cfg.nix.enable {
+      environment.systemPackages = with pkgs; [
+        nixd
+        nil
+        statix
+        alejandra
+      ];
+    })
+  ]);
 }

@@ -8,7 +8,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.kitty = {
-    enable = mkEnableOption "kitty module";
+    enable = mkEnableOption "kitty";
   };
 
   config = mkIf cfg.enable {
@@ -29,6 +29,9 @@ in {
         # font_features CartographCF-RegularItalic +ss01
 
         confirm_os_window_close = 0;
+
+        enable_audio_bell = false;
+        visual_bell_duration = 0;
 
         input_delay = 0;
         repaint_delay = 0;

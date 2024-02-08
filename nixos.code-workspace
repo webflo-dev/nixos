@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../.config/zsh_backup"
+		},
+		{
+			"path": "../../../../.config/zsh"
+		},
+		{
+			"path": "../../../../../../mnt/archlinux/home/florent/.config/zsh"
+		}
+	],
+	"settings": {}
+}
