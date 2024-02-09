@@ -18,6 +18,7 @@
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    inputs.nixvim.nixosModules.nixvim
   ];
 
   webflo.modules.network = {inherit hostName;};
