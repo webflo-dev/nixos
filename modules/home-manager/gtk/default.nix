@@ -8,7 +8,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.gtk = {
-    enable = mkEnableOption "gtk module";
+    enable = mkEnableOption "gtk";
   };
 
   config = mkIf cfg.enable {

@@ -1,3 +1,5 @@
+export WORDCHARS="*?[]~=&;!#\$%^(){}<>";
+
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion);
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50;
 export ZSH_AUTOSUGGEST_USE_ASYNC=1

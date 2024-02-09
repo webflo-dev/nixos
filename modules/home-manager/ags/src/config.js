@@ -27,8 +27,8 @@ export default {
     Bar(),
     AppLauncher(),
     NotificationCenter(),
-    VolumeOSD(),
-    MicrophoneOSD(),
+    VolumeOSD({anchor: "right"}),
+    MicrophoneOSD({anchor: "right"}),
     PowerMenu(),
   ].flat(),
 };

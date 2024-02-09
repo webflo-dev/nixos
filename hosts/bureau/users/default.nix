@@ -1,12 +1,14 @@
 {
   webflo.settings = {
-    monitor = {
-      name = "DP-1";
-      resolution = {
-        width = 3840;
-        height = 2160;
-      };
-      refreshRate = 144;
-    };
+    monitors = [
+      {
+        name = "DP-1";
+        resolution = {
+          width = 3840;
+          height = 2160;
+        };
+        refreshRate = 144;
+      }
+    ];
   };
 }

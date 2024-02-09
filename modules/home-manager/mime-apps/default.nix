@@ -9,7 +9,7 @@
   inherit (cfg) browser;
 in {
   options.webflo.modules.mimeApps = {
-    enable = mkEnableOption "mime-apps module";
+    enable = mkEnableOption "mime-apps";
     browser = mkOption {
       type = types.str;
       default = "brave-browser.desktop";

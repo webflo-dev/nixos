@@ -1,21 +1,31 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.webflo.modules.hyprland;
   inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (config.webflo.settings) monitors;
 in {
   options.webflo.modules.hyprland = {
-    enable = mkEnableOption "hyprland module";
+    enable = mkEnableOption "hyprland";
     wallpaper = mkOption {type = types.path;};
   };
 
   config = let
     wallpaper_target = "hypr/wallpaper.jpg";
+    bitDepthExpr = value:
+      if (value != null)
+      then "bitdepth,${toString value}"
+      else "";
   in
     mkIf cfg.enable {
       xdg.configFile.${wallpaper_target}.source = cfg.wallpaper;
+
+      home.packages = with pkgs; [
+        swaybg
+      ];
 
       wayland.windowManager.hyprland = {
         enable = true;
@@ -47,15 +57,22 @@ in {
               natural_scroll = false;
             };
           };
+
           gestures = {
             workspace_swipe = true;
           };
 
-          monitor = [
-            # "DP-2, 3840x2160@144, 0x0, 1, bitdepth,10" # not sure if bitdepth is required
-            "DP-1, 3840x2160@144, 0x0, 1, bitdepth,10"
-            "eDP-1, 1920x1200@60, 0x0, 1"
-          ];
+          monitor =
+            builtins.map (
+              {
+                name,
+                resolution,
+                bitDepth,
+                refreshRate,
+                ...
+              }: "${name}, ${toString resolution.width}x${toString resolution.height}@${toString refreshRate}, 0x0, 1, ${bitDepthExpr bitDepth}"
+            )
+            monitors;
 
           general = {
             gaps_in = 10;

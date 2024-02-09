@@ -5,10 +5,10 @@
   inputs,
   ...
 }: let
-  cfg = config.webflo.modules.desktop.thunar;
+  cfg = config.webflo.modules.thunar;
   inherit (lib) mkEnableOption mkIf;
 in {
-  options.webflo.modules.desktop.thunar = {
+  options.webflo.modules.thunar = {
     enable = mkEnableOption "Thunar module";
   };
 

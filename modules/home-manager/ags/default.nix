@@ -9,7 +9,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.ags = {
-    enable = mkEnableOption "AGS module";
+    enable = mkEnableOption "AGS (Aylur's GTK Shell)";
   };
 
   imports = [
@@ -17,8 +17,20 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    home.packages = [
-      pkgs.sassc
+    home.packages = with pkgs; [
+      ### Build
+      sassc
+      bun
+
+      ### tools
+      jq
+      slurp
+      wf-recorder
+      wl-clipboard
+      imv
+      grim
+      mpv
+      swappy
     ];
 
     programs.ags = {

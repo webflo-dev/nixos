@@ -4,12 +4,12 @@
   pkgs,
   ...
 }: let
-  cfg = config.webflo.modules.desktop.hyprland;
+  cfg = config.webflo.modules.hyprland;
   inherit (lib) mkEnableOption mkIf types;
   nvidiaCfg = config.webflo.modules.nvidia;
 in {
-  options.webflo.modules.desktop.hyprland = {
-    enable = mkEnableOption "Hyprland module";
+  options.webflo.modules.hyprland = {
+    enable = mkEnableOption "Hyprland";
   };
 
   config = mkIf cfg.enable {
@@ -33,16 +33,17 @@ in {
     services.pipewire.enable = true;
 
     environment.systemPackages = with pkgs; [
-      grim
-      imv
+      # grim
+      # imv
       kitty
       polkit_gnome
-      slurp
-      swappy
-      swaybg
-      swaylock
-      wf-recorder
-      wl-clipboard
+      libnotify
+      # slurp
+      # swappy
+      # swaybg
+      # swaylock
+      # wf-recorder
+      # wl-clipboard
       wlr-randr
       xdg-desktop-portal-hyprland
     ];

@@ -8,7 +8,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.fonts = {
-    enable = mkEnableOption "fonts module";
+    enable = mkEnableOption "fonts";
   };
 
   config = mkIf cfg.enable {

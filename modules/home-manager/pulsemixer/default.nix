@@ -8,7 +8,7 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.webflo.modules.pulsemixer = {
-    enable = mkEnableOption "pulsemixer module";
+    enable = mkEnableOption "pulsemixer";
   };
 
   config = let

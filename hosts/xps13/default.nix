@@ -11,21 +11,6 @@ in {
     ./hardware-configuration.nix
   ];
 
-  # webflo.settings = {
-  #   user = {
-  #     name = "florent";
-  #     uid = 1000;
-  #   };
-  #   monitor = {
-  #     name = "eDP-1";
-  #     resolution = {
-  #       width = 1920;
-  #       height = 1200;
-  #     };
-  #     refreshRate = 60;
-  #   };
-  # };
-
   zramSwap.enable = true;
   services.fwupd.enable = true;
 
@@ -43,22 +28,19 @@ in {
       videoGroupMembers = [username];
     };
 
-    zsh.enable = true;
-
-    cliTools.enable = true;
-
-    desktop = {
-      fonts.enable = true;
-      thunar.enable = true;
-      hyprland.enable = true;
-    };
+    fonts.enable = true;
+    thunar.enable = true;
+    hyprland.enable = true;
 
     development = {
       enable = true;
-      inherit username;
+      usernames = [username];
     };
 
-    docker.enable = true;
+    docker = {
+      enable = true;
+      dockerGroupMembers = [username];
+    };
   };
 
   environment.systemPackages = with pkgs;

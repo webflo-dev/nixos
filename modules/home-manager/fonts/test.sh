@@ -2,7 +2,7 @@
 
 
 echo -e "== === !== >= <= =>"
-echo -e "契          勒 鈴 "
+# echo -e "契          勒 鈴 "
 
 
 echo -e 'normal'

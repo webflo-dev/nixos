@@ -11,28 +11,11 @@ in {
     ./hardware-configuration.nix
   ];
 
-  hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = false;
-
-  # webflo.settings = {
-  #   user = {
-  #     name = "florent";
-  #     uid = 1000;
-  #   };
-  #   monitor = {
-  #     name = "DP-2";
-  #     resolution = {
-  #       width = 3840;
-  #       height = 2160;
-  #     };
-  #     refreshRate = 144;
-  #   };
-  # };
-
   services.fwupd.enable = true;
 
   webflo.modules = {
     nvidia.enable = true;
+    logitech.enableMouse = true;
     pipewire = {
       enable = true;
       audioGroupMembers = [username];
@@ -43,31 +26,25 @@ in {
       videoGroupMembers = [username];
     };
 
-    zsh.enable = true;
-
-    cliTools.enable = true;
-
-    desktop = {
-      fonts.enable = true;
-      thunar.enable = true;
-      hyprland.enable = true;
-    };
+    fonts.enable = true;
+    thunar.enable = true;
+    hyprland.enable = true;
 
     development = {
       enable = true;
-      inherit username;
+      usernames = [username];
     };
 
-    docker.enable = true;
+    docker = {
+      enable = true;
+      dockerGroupMembers = [username];
+    };
   };
 
   environment.systemPackages = with pkgs;
     [
       udiskie
       mpv
-
-      # Logitech
-      solaar
     ]
     ++ [
       slack

@@ -1,77 +1,103 @@
-###
-### Autload
-###
+unsetopt  BEEP
 
-# automatically load bash completion functions
-autoload -U +X bashcompinit && bashcompinit
+# Changing directories
+setopt    AUTO_CD
+setopt    AUTO_PUSHD
+setopt    CDABLE_VARS
+setopt    CD_SILENT
+setopt    PUSHD_IGNORE_DUPS
+setopt    PUSHD_MINUS
 
-autoload -Uz bracketed-paste-magic
-zle -N bracketed-paste bracketed-paste-magic
+# Completion
+setopt    ALWAYS_TO_END
+setopt    AUTO_LIST
+setopt    AUTO_MENU
+setopt    AUTO_PARAM_SLASH
+setopt    COMPLETE_ALIASES
+setopt    COMPLETE_IN_WORD
+setopt    GLOB_COMPLETE
+setopt    HASH_LIST_ALL
+setopt    LIST_PACKED
+setopt    LIST_TYPES
+unsetopt  MENU_COMPLETE
+unsetopt  FLOW_CONTROL
 
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
+# Expansion and Globbing
+setopt    GLOB_DOTS
+setopt    EXTENDED_GLOB
+setopt    NOMATCH
+
+# History
+setopt    BANG_HIST
+setopt    EXTENDED_HISTORY
+setopt    HIST_EXPIRE_DUPS_FIRST
+setopt    HIST_FIND_NO_DUPS
+setopt    HIST_IGNORE_ALL_DUPS
+setopt    HIST_IGNORE_DUPS
+setopt    HIST_IGNORE_SPACE
+setopt    HIST_REDUCE_BLANKS
+setopt    HIST_SAVE_NO_DUPS
+setopt    HIST_VERIFY
+setopt    INC_APPEND_HISTORY
+setopt    SHARE_HISTORY
+
+# Input/Output
+setopt    CORRECT_ALL
+setopt    INTERACTIVECOMMENTS
+
+# Job Control
+setopt    LONG_LIST_JOBS
+
+# Scripting
+setopt    MULTIOS
 
 
-###
-### Completions
-###
-
-expand-or-complete-with-dots() {
-  COMPLETION_WAITING_DOTS="%F{red}…%f"
-  # turn off line wrapping and print prompt-expanded "dot" sequence
-  printf '\e[?7l%s\e[?7h' "${(%)COMPLETION_WAITING_DOTS}"
-  zle expand-or-complete
-  zle redisplay
-}
-zle -N expand-or-complete-with-dots
-# Set the function as the default tab completion widget
-bindkey -M emacs "^I" expand-or-complete-with-dots
-bindkey -M viins "^I" expand-or-complete-with-dots
-bindkey -M vicmd "^I" expand-or-complete-with-dots
 
 
 
-# should this be in keybindings?
-bindkey -M menuselect '^o' accept-and-infer-next-history
-zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' menu select
 
+### Docker completion tips
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
+### fzf-tab configuration
+# disable sort when completing options of any command
+zstyle ':completion:complete:*:options' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
+# give a preview of commandline arguments when completing `kill`
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' 'fzf-preview [[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 
+# systemctl
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 
-# case insensitive (all), partial-word and substring completion
-if [[ "$HYPHEN_INSENSITIVE" = true ]]; then
-  zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
-else
-  zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
-fi
-unset CASE_SENSITIVE HYPHEN_INSENSITIVE
+# env variables
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
 
-# Complete . and .. special directories
-zstyle ':completion:*' special-dirs false
-
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
-
-# disable named-directories autocompletion
-zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
-
-# Use caching so that commands like apt and dpkg complete are useable
-zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
-
-# Don't complete uninteresting users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
-        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
-        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
-        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
-        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
-        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
-        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
-        usbmux uucp vcsa wwwrun xfs '_*'
-
-# ... unless we really want to.
-zstyle '*' single-ignored show
+# git
+# it is an example. you can change it
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff $word | delta'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview 'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview 'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+	'case "$group" in
+	"commit tag") git show --color=always $word ;;
+	*) git show --color=always $word | delta ;;
+	esac'
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+	'case "$group" in
+	"modified file") git diff $word | delta ;;
+	"recent commit object name") git show --color=always $word | delta ;;
+	*) git log --color=always $word ;;
+	esac'
 
