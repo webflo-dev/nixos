@@ -27,6 +27,8 @@ in {
     ./plugins/lsp
     ./plugins/file-explorers.nix
     ./plugins/git.nix
+    ./plugins/fzf-lua.nix
+    ./plugins/others.nix
   ];
 
   config = mkIf cfg.enable {
@@ -37,8 +39,10 @@ in {
     programs.nixvim = {
       enable = true;
 
-      globals.mapleader = " ";
-      globals.maplocalleader = " ";
+      globals = {
+        mapleader = " ";
+        maplocalleader = " ";
+      };
     };
   };
 }
