@@ -28,6 +28,7 @@ in {
     ./plugins/file-explorers.nix
     ./plugins/git.nix
     ./plugins/fzf-lua.nix
+    ./plugins/statusbar.nix
     ./plugins/others.nix
   ];
 

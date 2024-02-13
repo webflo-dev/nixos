@@ -92,13 +92,13 @@ in {
 
         "before_file_move" = ''
           function(data)
-            lsp_rename_file(data.source, data.destination)
+            lsp_rename_custom(data.source, data.destination)
           end
         '';
 
         "before_file_rename" = ''
           function(data)
-            lsp_rename_file(data.source, data.destination)
+            lsp_rename_custom(data.source, data.destination)
           end,
         '';
       };
@@ -116,17 +116,13 @@ in {
 
     extraConfigLuaPre = ''
       local lsp_rename_file = function(source, newSource)
-        local a = require("plenary.async")
-        local async = require("typescript-tools.async")
-        local c = require("typescript-tools.protocol.constants")
-        local uv = require("plenary.async.uv_async")
-        local au = require("plenary.async.util")
+        local a = require "plenary.async"
+        local uv = require "plenary.async.uv_async"
+        local au = require "plenary.async.util"
+        local c = require "typescript-tools.protocol.constants"
+        local async = require "typescript-tools.async"
 
         a.void(function()
-          if not newSource then
-            return
-          end
-
           local err, result = async.buf_request_isomorphic(true, 0, c.LspMethods.WillRenameFiles, {
             files = {
               {

@@ -1,8 +1,10 @@
 {
   pkgs,
-  lib,
+  config,
   ...
-}: {
+}: let
+  icons = import ../icons.nix;
+in {
   programs.nixvim = {
     extraPlugins = with pkgs.vimPlugins; [
       nvim-surround
@@ -129,6 +131,31 @@
             end
           '';
         };
+      };
+
+      notify = {
+        enable = true;
+        backgroundColour = "#00000000";
+        fps = (builtins.elemAt config.webflo.settings.monitors 0).refreshRate;
+        timeout = 1500;
+        render.__raw = "require('notify.render.wrapped-compact')";
+        icons = {
+          debug = icons.common.debug;
+          error = icons.diagnostics.error;
+          info = icons.diagnostics.info;
+          trace = icons.diagnostics.hint;
+          warn = icons.diagnostics.warn;
+        };
+        maxHeight.__raw = ''
+          function()
+            return math.floor(vim.o.lines * 0.75)
+          end
+        '';
+        maxWidth.__raw = ''
+          function()
+            return math.floor(vim.o.columns * 0.75)
+          end
+        '';
       };
     };
 
