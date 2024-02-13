@@ -4,6 +4,9 @@
 
     ./servers/typescript-tools.nix
     ./servers/eslint.nix
+    ./servers/gopls.nix
+    ./servers/dockerls.nix
+    ./servers/graphql.nix
   ];
 
   programs.nixvim = {
@@ -35,72 +38,6 @@
         bashls.enable = true;
         cssls.enable = true;
         # dockerls.enable = true;
-        eslint = {
-          enable = true;
-          onAttach.function = ''
-            client.server_capabilities.documentFormattingProvider = true
-            client.server_capabilities.documentRangeFormattingProvider = true
-
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = bufnr,
-              command = "EslintFixAll",
-            })
-          '';
-        };
-        gopls = {
-          enable = true;
-          onAttach.function = ''
-            if not client.server_capabilities.semanticTokensProvider then
-            	local semantic = client.config.capabilities.textDocument.semanticTokens
-            	client.server_capabilities.semanticTokensProvider = {
-            		full = true,
-            		legend = {
-            			tokenTypes = semantic.tokenTypes,
-            			tokenModifiers = semantic.tokenModifiers,
-            		},
-            		range = true,
-            	}
-            end
-          '';
-          extraOptions = {
-            settings = {
-              gopls = {
-                gofumpt = true;
-                codelenses = {
-                  gc_details = false;
-                  generate = true;
-                  regenerate_cgo = true;
-                  run_govulncheck = true;
-                  test = true;
-                  tidy = true;
-                  upgrade_dependency = true;
-                  vendor = true;
-                };
-                hints = {
-                  assignVariableTypes = true;
-                  compositeLiteralFields = true;
-                  compositeLiteralTypes = true;
-                  constantValues = true;
-                  functionTypeParameters = true;
-                  parameterNames = true;
-                  rangeVariableTypes = true;
-                };
-                analyses = {
-                  fieldalignment = true;
-                  nilness = true;
-                  unusedparams = true;
-                  unusedwrite = true;
-                  useany = true;
-                };
-                usePlaceholders = true;
-                completeUnimported = true;
-                staticcheck = true;
-                directoryFilters = ["-.git" "-.vscode" "-.idea" "-.vscode-test" "-node_modules"];
-                semanticTokens = true;
-              };
-            };
-          };
-        };
         # graphql.enable = true;
         html.enable = true;
         jsonls.enable = true;
@@ -112,11 +49,16 @@
         };
         nil_ls = {
           enable = true;
-          settings.formatting.command = "alejandra";
+          settings.formatting.command = ["alejandra"];
         };
         nixd = {
           enable = true;
           settings.formatting.command = "alejandra";
+        };
+        rust-analyzer = {
+          enable = true;
+          installCargo = true;
+          installRustc = true;
         };
       };
     };
@@ -127,13 +69,22 @@
       {
         mode = "n";
         key = "<leader>uh";
-        action = "function() vim.lsp.inlay_hint(0, nil) end";
+        action = ''
+          function()
+            if (vim.lsp.inlay_hint ~= nil) then
+            	vim.lsp.inlay_hint(0, nil)
+            end
+          end
+        '';
         lua = true;
         options = {desc = "Toggle inlay hints";};
       }
     ];
 
     extraConfigLuaPre = ''
+      require('lspconfig.ui.windows').default_options = {
+        border = "rounded"
+      }
 
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
