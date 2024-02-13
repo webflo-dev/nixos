@@ -26,6 +26,7 @@ in {
     ./plugins/completion.nix
     ./plugins/lsp
     ./plugins/file-explorers.nix
+    ./plugins/git.nix
   ];
 
   config = mkIf cfg.enable {

@@ -37,8 +37,6 @@
       servers = {
         bashls.enable = true;
         cssls.enable = true;
-        # dockerls.enable = true;
-        # graphql.enable = true;
         html.enable = true;
         jsonls.enable = true;
         lua-ls = {
