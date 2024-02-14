@@ -17,7 +17,7 @@ in {
       hardtime.enable = false;
 
       which-key = {
-        enable = false;
+        enable = true;
         plugins.spelling.enabled = false;
       };
 

@@ -17,7 +17,6 @@ in {
       (keymap ":" "command_history" "Command history")
       (keymap "f" "files" "Find files")
       (keymap "F" "resume" "FzfLua resume")
-      (keymap "fg" "live_grep_glob resume=true" "Grep")
       (keymap "r" "oldfiles" "Recently opened files")
       (keymap "w" "grep_cword" "Search word under cursor")
       (keymap "gc" "git_commits" "Git commits")

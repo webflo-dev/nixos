@@ -16,22 +16,8 @@ in {
   };
 
   imports = [
-    ./options.nix
-    ./keymaps.nix
-    ./autocmds.nix
-    ./filetypes.nix
-    ./color-scheme.nix
-
-    ./plugins/treesitter.nix
-    ./plugins/completion.nix
-    ./plugins/lsp
-    ./plugins/file-explorers.nix
-    ./plugins/formatter.nix
-    ./plugins/linter.nix
-    ./plugins/git.nix
-    ./plugins/fzf-lua.nix
-    ./plugins/statusbar.nix
-    ./plugins/others.nix
+    ./core
+    ./plugins
   ];
 
   config = mkIf cfg.enable {

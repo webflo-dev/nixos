@@ -4,6 +4,10 @@ in {
   programs.nixvim = {
     plugins.neo-tree = {
       enable = true;
+
+      popupBorderStyle = "rounded";
+      closeIfLastWindow = true;
+
       sourceSelector = {
         sources = [
           {source = "filesystem";}
@@ -20,6 +24,14 @@ in {
           "<Left>" = "close_node";
           "l" = "open";
           "h" = "close_node";
+        };
+        findArgs = {
+          fd = [
+            "--exclude"
+            ".git"
+            "--exclude"
+            "node_modules"
+          ];
         };
       };
 
@@ -61,18 +73,59 @@ in {
           "<C-s>" = "open_split";
           "<C-v>" = "open_vsplit";
           "<C-t>" = "open_tabnew";
+          "D" = {
+            command.__raw = ''
+              function(state)
+                local node = state.tree:get_node()
+                local log = require("neo-tree.log")
+                state.clipboard = state.clipboard or {}
+                if diff_Node and diff_Node ~= tostring(node.id) then
+                  local current_Diff = node.id
+                  require("neo-tree.utils").open_file(state, diff_Node, open)
+                  vim.cmd("vert diffs " .. current_Diff)
+                  log.info("Diffing " .. diff_Name .. " against " .. node.name)
+                  diff_Node = nil
+                  current_Diff = nil
+                  state.clipboard = {}
+                  require("neo-tree.ui.renderer").redraw(state)
+                else
+                  local existing = state.clipboard[node.id]
+                  if existing and existing.action == "diff" then
+                    state.clipboard[node.id] = nil
+                    diff_Node = nil
+                    require("neo-tree.ui.renderer").redraw(state)
+                  else
+                    state.clipboard[node.id] = { action = "diff", node = node }
+                    diff_Name = state.clipboard[node.id].node.name
+                    diff_Node = tostring(state.clipboard[node.id].node.id)
+                    log.info("Diff source file " .. diff_Name)
+                    require("neo-tree.ui.renderer").redraw(state)
+                  end
+                end
+              end
+            '';
+          };
+          "I" = {
+            command.__raw = ''
+              function(state)
+                local node = state.tree:get_node()
+                print(vim.inspect(node))
+                state.clipboard[node.id] = { action = "copy", node = node }
+              end
+            '';
+          };
           "a" = {
             command = "add";
             config = {
               show_path = "relative";
             };
           };
-          "m" = {
-            command = "m";
-            config = {
-              show_path = "relative";
-            };
-          };
+          # "m" = {
+          #   command = "m";
+          #   config = {
+          #     show_path = "relative";
+          #   };
+          # };
           "c" = {
             command = "copy";
             config = {
@@ -99,7 +152,20 @@ in {
         "before_file_rename" = ''
           function(data)
             lsp_rename_custom(data.source, data.destination)
-          end,
+          end
+        '';
+
+        ## Hide cursor when neotree is open
+        "neo_tree_buffer_enter" = ''
+          function()
+            vim.cmd("highlight! Cursor blend=100")
+          end
+        '';
+        ## Show cursor when neotree is leave
+        "neo_tree_buffer_leave" = ''
+          function()
+            vim.cmd("highlight! Cursor guibg=#5f87af blend=0")
+          end
         '';
       };
     };
@@ -115,7 +181,7 @@ in {
     ];
 
     extraConfigLuaPre = ''
-      local lsp_rename_file = function(source, newSource)
+      local lsp_rename_custom = function(source, newSource)
         local a = require "plenary.async"
         local uv = require "plenary.async.uv_async"
         local au = require "plenary.async.util"

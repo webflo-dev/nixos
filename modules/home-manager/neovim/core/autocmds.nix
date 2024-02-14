@@ -1,11 +1,6 @@
 {
   programs.nixvim = {
     autoCmd = [
-      # {
-      #   event = ["BufEnter" "BufWinEnter"];
-      #   pattern = [".c" ".h"];
-      #   callback = {__raw = "function() print(‘This buffer enters’) end";};
-      # }
       {
         desc = "Highlight yanked text";
         event = ["TextYankPost"];
@@ -26,20 +21,20 @@
           end
         '';
       }
-      # {
-      #   desc = "Go to last position when opening a file";
-      #   event = ["BufReadPost"];
-      #   callback._raw = ''
-      #     function()
-      #       local mark = vim.api.nvim_buf_get_mark(0, '"')
-      #       local lcount = vim.api.nvim_buf_line_count(0)
-      #       if mark[1] > 0 and mark[1] <= lcount then
-      #         pcall(vim.api.nvim_win_set_cursor, 0, mark)
-      #       end
-      #       return true
-      #     end
-      #   '';
-      # }
+      {
+        desc = "Go to last position when opening a file";
+        event = ["BufReadPost"];
+        callback.__raw = ''
+          function()
+            local mark = vim.api.nvim_buf_get_mark(0, '"')
+            local lcount = vim.api.nvim_buf_line_count(0)
+            if mark[1] > 0 and mark[1] <= lcount then
+              pcall(vim.api.nvim_win_set_cursor, 0, mark)
+            end
+            return true
+          end
+        '';
+      }
       {
         desc = "Close some filetypes with <q>";
         event = ["FileType"];

@@ -26,17 +26,17 @@
       }
     ];
 
-    autoCmd = [
-      {
-        desc = "Lint current file";
-        event = ["BufWritePost" "BufReadPost" "InsertLeave"];
-        callback.__raw = ''
-          function()
-            require('lint').try_lint()
-            return true
-          end
-        '';
-      }
-    ];
+    # autoCmd = [
+    #   {
+    #     desc = "Lint current file";
+    #     event = ["BufWritePost" "BufReadPost" "InsertLeave"];
+    #     callback.__raw = ''
+    #       function()
+    #         require('lint').try_lint()
+    #         return true
+    #       end
+    #     '';
+    #   }
+    # ];
   };
 }
