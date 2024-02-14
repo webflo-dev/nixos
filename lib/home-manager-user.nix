@@ -12,6 +12,7 @@
 in {
   imports = [
     inputs.agenix.homeManagerModules.default
+    inputs.nixvim.homeManagerModules.nixvim
     ../hosts/${hostName}/users/${username}
   ];
 

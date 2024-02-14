@@ -15,17 +15,23 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
-    programs.neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-    };
+  imports = [
+    ./core
+    ./plugins
+  ];
 
+  config = mkIf cfg.enable {
     home.sessionVariables = mkIf cfg.useAsManPager {
       MANPAGER = "nvim +Man!";
+    };
+
+    programs.nixvim = {
+      enable = true;
+
+      globals = {
+        mapleader = " ";
+        maplocalleader = " ";
+      };
     };
   };
 }
