@@ -193,7 +193,7 @@
       {
         mode = ["n" "v"];
         key = "x";
-        action = "'\"_x'";
+        action = "\"_x";
         options = {desc = "Delete character without copy";};
       }
       {
