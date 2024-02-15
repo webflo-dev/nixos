@@ -31,6 +31,7 @@ in {
       grim
       mpv
       swappy
+      killall
     ];
 
     programs.ags = {

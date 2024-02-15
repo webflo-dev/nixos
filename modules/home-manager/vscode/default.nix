@@ -81,6 +81,7 @@ in {
         "editor.fontVariations" = true;
         "editor.formatOnSave" = true;
         "editor.formatOnSaveMode" = "file";
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.guides.bracketPairs" = true;
         "editor.inlayHints.enabled" = "offUnlessPressed";
         "editor.inlineSuggest.enabled" = true;

@@ -189,3 +189,4 @@ unset CASE_SENSITIVE HYPHEN_INSENSITIVE
 
 
 _comp_options+=(globdots)		# Include hidden files.
+
