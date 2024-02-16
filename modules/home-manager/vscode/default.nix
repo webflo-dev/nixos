@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: let
   cfg = config.webflo.modules.vscode;
@@ -29,23 +30,8 @@ in {
         apollographql.vscode-apollo
         golang.go
         sumneko.lua
-
-        # works only with MS version
-        # visualstudioexptteam.vscodeintellicode
-        # christian-kohler.npm-intellisense
-        # ionutvmi.path-autocomplete
-        # mylesmurphy.prettify-ts
-        # ms-vscode-remote.remote-ssh-edit
-        # ms-vscode.remote-explorer
-        # ms-vscode.remote-repositories
-        # meganrogge.template-string-converter
-        # tonybaloney.vscode-pets
-        # alexcvzz.vscode-sqlite
-        # deque-systems.vscode-axe-linter
-        # webhint.vscode-webhint
-        # adpyke.vscode-sql-formatter
-        # team-sapling.sapling
-
+        graphql.vscode-graphql
+        graphql.vscode-graphql-syntax
         ibm.output-colorizer
         christian-kohler.path-intellisense
         esbenp.prettier-vscode
@@ -61,7 +47,24 @@ in {
         # idered.npm
         # antfu.slidev
         # sudoaugustin.vslook
-      ];
+
+      ] ++ (with inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+        meganrogge.template-string-converter
+        visualstudioexptteam.vscodeintellicode
+        christian-kohler.npm-intellisense
+        ionutvmi.path-autocomplete
+        mylesmurphy.prettify-ts
+        meganrogge.template-string-converter
+        ms-vscode-remote.remote-ssh-edit
+        ms-vscode.remote-explorer
+        ms-vscode.remote-repositories
+        tonybaloney.vscode-pets
+        alexcvzz.vscode-sqlite
+        deque-systems.vscode-axe-linter
+        webhint.vscode-webhint
+        adpyke.vscode-sql-formatter
+        team-sapling.sapling
+      ]);
 
       userSettings = {
         # "files.autoSave" = "off";
