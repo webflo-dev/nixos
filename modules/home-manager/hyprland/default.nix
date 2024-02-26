@@ -138,6 +138,7 @@ in {
 
           layerrule = [
             "blur, power-menu"
+            "blur, app-launcher"
           ];
 
           animations = {

@@ -16,55 +16,56 @@ in {
     programs.vscode = {
       enable = true;
       package = pkgs.vscodium;
-      extensions = with pkgs.vscode-extensions; [
-        enkia.tokyo-night
-        jnoortheen.nix-ide
-        mikestead.dotenv
-        editorconfig.editorconfig
-        usernamehw.errorlens
-        dbaeumer.vscode-eslint
-        github.copilot
-        github.copilot-chat
-        eamodio.gitlens
-        kamikillerto.vscode-colorize
-        apollographql.vscode-apollo
-        golang.go
-        sumneko.lua
-        graphql.vscode-graphql
-        graphql.vscode-graphql-syntax
-        ibm.output-colorizer
-        christian-kohler.path-intellisense
-        esbenp.prettier-vscode
-        mechatroner.rainbow-csv
-        ms-vscode-remote.remote-ssh
-        vscode-icons-team.vscode-icons
-        vscodevim.vim
-        asvetliakov.vscode-neovim
+      extensions = with pkgs.vscode-extensions;
+        [
+          enkia.tokyo-night
+          jnoortheen.nix-ide
+          mikestead.dotenv
+          editorconfig.editorconfig
+          usernamehw.errorlens
+          dbaeumer.vscode-eslint
+          github.copilot
+          github.copilot-chat
+          eamodio.gitlens
+          kamikillerto.vscode-colorize
+          apollographql.vscode-apollo
+          golang.go
+          sumneko.lua
+          graphql.vscode-graphql
+          graphql.vscode-graphql-syntax
+          ibm.output-colorizer
+          christian-kohler.path-intellisense
+          esbenp.prettier-vscode
+          mechatroner.rainbow-csv
+          # ms-vscode-remote.remote-ssh
+          vscode-icons-team.vscode-icons
+          # vscodevim.vim
+          # asvetliakov.vscode-neovim
 
-        ### Disabled extensions. To use maybe later.
-        # codeium.codeium
-        # gitlab.gitlab-workflow
-        # idered.npm
-        # antfu.slidev
-        # sudoaugustin.vslook
-
-      ] ++ (with inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
-        meganrogge.template-string-converter
-        visualstudioexptteam.vscodeintellicode
-        christian-kohler.npm-intellisense
-        ionutvmi.path-autocomplete
-        mylesmurphy.prettify-ts
-        meganrogge.template-string-converter
-        ms-vscode-remote.remote-ssh-edit
-        ms-vscode.remote-explorer
-        ms-vscode.remote-repositories
-        tonybaloney.vscode-pets
-        alexcvzz.vscode-sqlite
-        deque-systems.vscode-axe-linter
-        webhint.vscode-webhint
-        adpyke.vscode-sql-formatter
-        team-sapling.sapling
-      ]);
+          ### Disabled extensions. To use maybe later.
+          # codeium.codeium
+          # gitlab.gitlab-workflow
+          # idered.npm
+          # antfu.slidev
+          # sudoaugustin.vslook
+        ]
+        ++ (with inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+          meganrogge.template-string-converter
+          visualstudioexptteam.vscodeintellicode
+          christian-kohler.npm-intellisense
+          ionutvmi.path-autocomplete
+          # mylesmurphy.prettify-ts
+          meganrogge.template-string-converter
+          # ms-vscode-remote.remote-ssh-edit
+          # ms-vscode.remote-explorer
+          # ms-vscode.remote-repositories
+          tonybaloney.vscode-pets
+          alexcvzz.vscode-sqlite
+          # deque-systems.vscode-axe-linter
+          # webhint.vscode-webhint
+          adpyke.vscode-sql-formatter
+          team-sapling.sapling
+        ]);
 
       userSettings = {
         # "files.autoSave" = "off";

@@ -66,6 +66,13 @@
     keymaps = [
       {
         mode = "n";
+        key = "<leader>cd";
+        action = "vim.diagnostic.open_float";
+        lua = true;
+        options = {desc = "Open diagnostics in floating window";};
+      }
+      {
+        mode = "n";
         key = "<leader>uh";
         action = ''
           function()
