@@ -20,7 +20,7 @@ in {
 
     programs.hyprland = {
       enable = true;
-      enableNvidiaPatches = nvidiaCfg.enable;
+      # enableNvidiaPatches = nvidiaCfg.enable;
     };
 
     xdg.portal = {

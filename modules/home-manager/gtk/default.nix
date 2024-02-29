@@ -17,6 +17,13 @@ in {
       gtk4
     ];
 
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.apple-cursor;
+      name = "macOS-Monterey";
+      size = 24;
+    };
+
     gtk = {
       enable = true;
 
@@ -33,9 +40,9 @@ in {
       };
 
       cursorTheme = {
-        name = "Adwaita";
-        size = 0;
-        package = pkgs.gnome.adwaita-icon-theme;
+        name = "macOS-Monterey";
+        size = 24;
+        package = pkgs.apple-cursor;
       };
 
       iconTheme = {

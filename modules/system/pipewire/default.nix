@@ -33,23 +33,33 @@ in {
       alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.enable = true;
+      extraConfig.pipewire = {
+        "92-low-latency" = {
+          "context.properties" = {
+            "default.clock.rate" = 44100;
+            "default.clock.quantum" = 512;
+            "default.clock.min-quantum" = 512;
+            "default.clock.max-quantum" = 512;
+          };
+        };
+      };
     };
 
     users.groups."audio".members = cfg.audioGroupMembers;
 
     environment.etc = {
-      "pipewire/pipewire.conf.d/92-low-latency.conf".text = ''
-        context.properties = {
-          default.clock.rate = 44100
-          default.clock.quantum = 512
-          default.clock.min-quantum = 512
-          default.clock.max-quantum = 512
-        }
-      '';
+      # "pipewire/pipewire.conf.d/92-low-latency.conf".text = ''
+      #   context.properties = {
+      #     default.clock.rate = 44100
+      #     default.clock.quantum = 512
+      #     default.clock.min-quantum = 512
+      #     default.clock.max-quantum = 512
+      #   }
+      # '';
       # "pipewire/pipewire.conf.d/95-echo-cancellation.conf".text = mkIf cfg.enableEchoCancellation ''
       #    context.modules = [
       #     {
-      #       name = libpipewire-module-echo-cancel
+      #       name = libpipewire-module-echo-cancet l
       #       args = {
       #         # library.name  = aec/libspa-aec-webrtc
       #         # node.latency = 1024/48000
