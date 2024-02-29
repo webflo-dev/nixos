@@ -3,6 +3,7 @@
 
   webflo.modules = {
     ags.enable = true;
+    binaries.enable = true;
     cliTools.enable = true;
     fonts.enable = true;
     git.enable = true;

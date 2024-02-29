@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+if ! command -v pulsemixer &> /dev/null
+then
+	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low "'pulsemixer' is not installed."
+	exit 1
+fi
+
+# Get Volume
+get_volume() {
+	echo "`pulsemixer --get-volume | cut -d' ' -f1`"
+}
+
+
+
+# Increase Volume
+inc_volume() {
+	[[ `pulsemixer --get-mute` == 1 ]] && pulsemixer --unmute
+	pulsemixer --max-volume 100 --change-volume +5
+}
+
+# Decrease Volume
+dec_volume() {
+	[[ `pulsemixer --get-mute` == 1 ]] && pulsemixer --unmute
+	pulsemixer --max-volume 100 --change-volume -5 
+}
+
+# Toggle Mute
+toggle_mute() {
+  pulsemixer --toggle-mute 
+}
+
+# Toggle Mic
+toggle_mic() {
+	ID="`pulsemixer --list-sources | grep 'Default' | cut -d',' -f1 | cut -d' ' -f3`"
+  pulsemixer --id ${ID} --toggle-mute
+}
+
+
+
+case $1 in
+    --value)
+        get_volume
+    ;;
+    --up)
+        inc_volume
+    ;;
+    --down)
+        dec_volume
+    ;;
+    --toggle)
+        toggle_mute
+    ;;
+    --toggle-mic)
+        toggle_mic
+    ;;
+    --help)
+        echo "usage: volume [OPTIONS]
+		
+OPTIONS
+   --value
+   --up
+   --down
+   --toggle
+   --toggle-mic
+"
+    ;;
+    *)
+        echo $(get_volume)%
+    ;;
+esac
