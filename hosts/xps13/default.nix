@@ -12,7 +12,11 @@ in {
   ];
 
   zramSwap.enable = true;
-  services.fwupd.enable = true;
+  services = {
+    fwupd.enable = true;
+    upower.enable = true;
+    power-profiles-daemon.enable = true;
+  };
 
   webflo.modules = {
     bluetooth.enable = true;
