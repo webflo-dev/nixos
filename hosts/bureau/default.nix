@@ -49,9 +49,5 @@ in {
     ++ [
       slack
       _1password-gui
-      postgresql
-      nodejs_20
-      jq
-      envsubst
     ];
 }
