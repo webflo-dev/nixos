@@ -45,6 +45,7 @@ in {
     [
       udiskie
       mpv
+      appimage-run
     ]
     ++ [
       slack

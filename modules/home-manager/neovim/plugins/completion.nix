@@ -145,6 +145,7 @@ in {
     plugins.cmp-emoji.enable = true;
     plugins.cmp-cmdline.enable = true;
     plugins.cmp-git.enable = true;
+    plugins.cmp-snippy.enable = true;
 
     extraConfigLuaPre = ''
       local icons_kind = {

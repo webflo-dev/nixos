@@ -23,6 +23,7 @@ in {
   config = mkIf cfg.enable {
     home.sessionVariables = mkIf cfg.useAsManPager {
       MANPAGER = "nvim +Man!";
+      EDITOR = "nvim";
     };
 
     programs.nixvim = {

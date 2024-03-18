@@ -24,7 +24,8 @@
     };
 
     ags = {
-      url = "github:Aylur/ags/v1.8.0";
+      # url = "github:Aylur/ags/v1.8.0";
+      url = "github:Aylur/ags?ref=5dec6c7f37be13781144a7964e75cc00c7d7045f";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

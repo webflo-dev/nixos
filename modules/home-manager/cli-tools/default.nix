@@ -23,22 +23,43 @@ in {
         p7zip
       ];
     }
+
     {
       home.packages = [pkgs.bat];
       home.sessionVariables = {
         PAGER = "bat -p";
       };
+      programs.zsh = {
+        shellAliases = {
+          view = "bat";
+          cat = "bat -p";
+          more = "bat -p";
+        };
+      };
     }
+
     {
       home.packages = [pkgs.eza];
       programs.zsh = {
         shellAliases = {
-          # ls='ls -l -h -v --group-directories-first --time-style=+"%Y-%m-%d %H:%M" --color=auto -F --tabsize=0 --literal --show-control-chars --color=always --human-readable'
-          # la='ls -a'
           ls = "eza -la -L 3 --git --group-directories-first --ignore-glob='node_modules|.git' --icons";
           la = "ls";
           l = "ls";
         };
+      };
+    }
+
+    {
+      home.packages = with pkgs; [
+        tlrc
+        navi
+      ];
+      programs.zsh = let
+        naviCmd = "${config.home.profileDirectory}/bin/navi";
+      in {
+        initExtra = ''
+          eval "$(${naviCmd} widget zsh)"
+        '';
       };
     }
   ]);
