@@ -22,8 +22,10 @@ in {
       };
 
       trouble = {
-        enable = true;
-        useDiagnosticSigns = true;
+        settings = {
+          enable = true;
+          use_diagnostic_signs = true;
+        };
       };
 
       indent-blankline = {

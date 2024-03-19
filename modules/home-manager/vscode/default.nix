@@ -50,6 +50,7 @@ in {
           # sudoaugustin.vslook
         ]
         ++ (with inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+          kdl-org.kdl
           meganrogge.template-string-converter
           visualstudioexptteam.vscodeintellicode
           christian-kohler.npm-intellisense
@@ -87,8 +88,8 @@ in {
         "editor.formatOnSaveMode" = "file";
 
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        "[nix]"= {
-          "editor.defaultFormatter"= "jnoortheen.nix-ide";
+        "[nix]" = {
+          "editor.defaultFormatter" = "jnoortheen.nix-ide";
         };
         "editor.guides.bracketPairs" = true;
         "editor.inlayHints.enabled" = "offUnlessPressed";
@@ -184,13 +185,14 @@ in {
             };
           };
         };
+        "typescript.updateImportsOnFileMove.enabled" = "always";
       };
     };
 
-    programs.zsh = {
-      shellAliases = {
-        "code" = "codium";
-      };
-    };
+    # programs.zsh = {
+    #   shellAliases = {
+    #     "code" = "codium";
+    #   };
+    # };
   };
 }

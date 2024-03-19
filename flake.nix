@@ -74,7 +74,14 @@
           ++ (modules "system")
           ++ [{home-manager.sharedModules = homeManagerSharedModules hostName;}]
           ++ [(nixosSystemModule {inherit hostName users;})]
-          ++ [./hosts/${hostName}];
+          ++ [./hosts/${hostName}]
+          ++ [
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "nix-2.16.2"
+              ];
+            }
+          ];
       };
 
     mkHomeManagerConfiguration = {

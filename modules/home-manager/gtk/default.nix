@@ -35,8 +35,8 @@ in {
       };
 
       theme = {
-        name = "Qogir-Dark";
-        package = pkgs.qogir-theme;
+        name = "adw-gtk3-dark";
+        package = pkgs.adw-gtk3;
       };
 
       cursorTheme = {
@@ -52,8 +52,8 @@ in {
 
       gtk3 = {
         bookmarks = [
-          "file://${config.home.homeDirectory}/Pictures/Screenshots"
-          "file://${config.home.homeDirectory}/Videos/Recordings"
+          "file://${config.home.homeDirectory}/Pictures/screenshots"
+          "file://${config.home.homeDirectory}/Videos/recording"
           "file://${config.home.homeDirectory}/Downloads"
         ];
         extraConfig = {
