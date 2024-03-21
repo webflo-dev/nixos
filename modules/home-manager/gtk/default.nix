@@ -17,6 +17,13 @@ in {
       gtk4
     ];
 
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.apple-cursor;
+      name = "macOS-Monterey";
+      size = 24;
+    };
+
     gtk = {
       enable = true;
 
@@ -28,14 +35,14 @@ in {
       };
 
       theme = {
-        name = "Qogir-Dark";
-        package = pkgs.qogir-theme;
+        name = "adw-gtk3-dark";
+        package = pkgs.adw-gtk3;
       };
 
       cursorTheme = {
-        name = "Adwaita";
-        size = 0;
-        package = pkgs.gnome.adwaita-icon-theme;
+        name = "macOS-Monterey";
+        size = 24;
+        package = pkgs.apple-cursor;
       };
 
       iconTheme = {
@@ -45,8 +52,8 @@ in {
 
       gtk3 = {
         bookmarks = [
-          "file://${config.home.homeDirectory}/Pictures/Screenshots"
-          "file://${config.home.homeDirectory}/Videos/Recordings"
+          "file://${config.home.homeDirectory}/Pictures/screenshots"
+          "file://${config.home.homeDirectory}/Videos/recording"
           "file://${config.home.homeDirectory}/Downloads"
         ];
         extraConfig = {

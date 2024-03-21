@@ -6,8 +6,8 @@
         event = ["TextYankPost"];
         callback.__raw = ''
           function()
-            vim.highlight.on_yank();
-            return true;
+            vim.highlight.on_yank()
+            return true
           end
         '';
       }

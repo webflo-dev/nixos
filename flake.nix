@@ -2,9 +2,10 @@
   description = "NixOS & Home manager (webflo edition)";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-master.url = "github:nixos/nixpkgs";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs-master.url = "github:nixos/nixpkgs";
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     webflo-pkgs = {
       url = "github:webflo-dev/nixos-packages";
@@ -17,17 +18,20 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      # url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     ags = {
-      url = "github:Aylur/ags/v1.7.7";
+      # url = "github:Aylur/ags/v1.8.0";
+      url = "github:Aylur/ags?ref=5dec6c7f37be13781144a7964e75cc00c7d7045f";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-23.11";
+      # url = "github:nix-community/nixvim/nixos-23.11";
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -70,7 +74,20 @@
           ++ (modules "system")
           ++ [{home-manager.sharedModules = homeManagerSharedModules hostName;}]
           ++ [(nixosSystemModule {inherit hostName users;})]
-          ++ [./hosts/${hostName}];
+          ++ [./hosts/${hostName}]
+          ++ [
+            {
+              nix.registry.nixpkgs.flake = nixpkgs;
+              nix.nixPath = ["nixpkgs=flake:nixpkgs"];
+            }
+          ]
+          ++ [
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "nix-2.16.2"
+              ];
+            }
+          ];
       };
 
     mkHomeManagerConfiguration = {
@@ -84,6 +101,12 @@
         extraSpecialArgs = {inherit inputs;};
         modules =
           (homeManagerSharedModules hostName)
+          ++ [
+            {
+              nix.registry.nixpkgs.flake = nixpkgs;
+              home.sessionVariables.NIX_PATH = "nixpkgs=flake:nixpkgs$\{NIX_PATH:+:$NIX_PATH}";
+            }
+          ]
           ++ [(homeManagerUserModule {inherit hostName username uid;})];
       };
   in {

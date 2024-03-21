@@ -50,6 +50,7 @@ in {
           # sudoaugustin.vslook
         ]
         ++ (with inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace; [
+          kdl-org.kdl
           meganrogge.template-string-converter
           visualstudioexptteam.vscodeintellicode
           christian-kohler.npm-intellisense
@@ -85,13 +86,17 @@ in {
         "editor.fontVariations" = true;
         "editor.formatOnSave" = true;
         "editor.formatOnSaveMode" = "file";
+
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        "[nix]" = {
+          "editor.defaultFormatter" = "jnoortheen.nix-ide";
+        };
         "editor.guides.bracketPairs" = true;
         "editor.inlayHints.enabled" = "offUnlessPressed";
         "editor.inlineSuggest.enabled" = true;
         "editor.lineNumbers" = "relative";
         "editor.linkedEditing" = true;
-        "editor.occurrencesHighlight" = true;
+        "editor.occurrencesHighlight" = "multiFile";
         "editor.parameterHints.cycle" = true;
         "editor.parameterHints.enabled" = true;
         "editor.quickSuggestions" = {
@@ -111,7 +116,7 @@ in {
         "editor.suggestSelection" = "recentlyUsedByPrefix";
         "editor.tabSize" = 2;
         "editor.unicodeHighlight.nonBasicASCII" = false;
-        "editor.wordBasedSuggestions" = true;
+        "editor.wordBasedSuggestions" = "currentDocument";
 
         "explorer.autoRevealExclude" = {
           "**/node_modules" = true;
@@ -180,13 +185,14 @@ in {
             };
           };
         };
+        "typescript.updateImportsOnFileMove.enabled" = "always";
       };
     };
 
-    programs.zsh = {
-      shellAliases = {
-        "code" = "codium";
-      };
-    };
+    # programs.zsh = {
+    #   shellAliases = {
+    #     "code" = "codium";
+    #   };
+    # };
   };
 }

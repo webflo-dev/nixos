@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../ags"
+    },
+    {
+      "path": "../__old_version"
+    },
+    {
+      "path": "../../SuceV587-hyprland-ags"
+    },
+    {
+      "path": "../../aylur-dotfiles/ags"
+    },
+    {
+      "path": "../../AhmedSaadi0-my-hyprland-config/configs/ags"
+    }
+  ],
+  "settings": {}
+}

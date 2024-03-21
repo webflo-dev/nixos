@@ -30,7 +30,8 @@ in {
       imv
       grim
       mpv
-      swappy
+      satty
+      # swappy
       killall
     ];
 

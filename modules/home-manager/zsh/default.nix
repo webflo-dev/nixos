@@ -21,7 +21,7 @@ in {
       enable = true;
       dotDir = ".config/zsh";
 
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
       syntaxHighlighting = {
         enable = true;
@@ -33,6 +33,7 @@ in {
 
       cdpath = [];
       dirHashes = {
+        nixos = "\$HOME/nixos";
         config = "\$XDG_CONFIG_HOME";
         locale = "\XDG_DATA_HOME";
         state = "\XDG_STATE_HOME";
@@ -70,16 +71,6 @@ in {
         poweroff = "systemctl poweroff";
 
         less = "less -R";
-
-        view = "bat";
-        cat = "bat -p";
-        more = "bat -p";
-
-        # ls='ls -l -h -v --group-directories-first --time-style=+"%Y-%m-%d %H:%M" --color=auto -F --tabsize=0 --literal --show-control-chars --color=always --human-readable'
-        # la='ls -a'
-        ls = "eza -la -L 3 --git --group-directories-first --ignore-glob='node_modules|.git' --icons";
-        la = "ls";
-        l = "ls";
 
         ssh-add-keys = "eval '\$(ssh-agent -s)' && ssh-add";
 

@@ -2,149 +2,195 @@ let
   icons = import ../icons.nix;
 in {
   programs.nixvim = {
-    plugins.nvim-cmp = {
+    plugins.cmp = {
       enable = true;
+      autoEnableSources = true;
 
-      experimental = {
+      settings = {
         experimental = {
           ghost_text = true;
+          # ghost_text = {
+          #   hl_group = "CmpGhostText";
+          # };
         };
-        # ghost_text = {
-        #   hl_group = "CmpGhostText";
-        # };
-      };
 
-      performance = {
-        debounce = 60;
-        fetchingTimeout = 200;
-        maxViewEntries = 30;
-      };
+        completion.completeopt = "menu,menuone,noselect";
 
-      window = {
-        completion = {
-          border = "single";
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel";
-        };
-        documentation = {
-          border = "single";
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel";
-        };
-      };
+        sources = [
+          {
+            name = "nvim_lsp";
+            priority = 10;
+          }
+          {
+            name = "nvim_lsp_signature_help";
+            priority = 9;
+          }
+          {
+            name = "buffer";
+            priority = 8;
+          }
+          {
+            name = "path";
+            priority = 6;
+          }
+          {
+            name = "emoji";
+            priority = 5;
+          }
+        ];
 
-      # completion.completeopt = "menu,menuone,noinsert";
-      completion.completeopt = "menu,menuone,noselect";
-      preselect = "None";
+        formatting = {
+          fields = ["kind" "abbr" "menu"];
+          format = ''
+            function(entry, item)
+              if icons_kind[item.kind] then
+                item.kind = icons_kind[item.kind] .. item.kind
+              end
+              item.menu = format_menu[entry.source.name]
 
-      # snippet = {
-      #   expand = {
-      #     __raw = ''
-      #       function(args)
-      #        vim.snippet.expand(args.body)
-      #       end
-      #     '';
-      #   };
-      # };
-      snippet.expand = "snippy";
+              local completion_context = get_lsp_completion_context(entry.completion_item, entry.source)
+              if completion_context ~= nil and completion_context ~= "" then
+                item.menu = item.menu .. " ・" .. completion_context
+              end
 
-      sources = [
-        {
-          name = "nvim_lsp";
-          priority = 10;
-        }
-        {
-          name = "nvim_lsp_signature_help";
-          priority = 9;
-        }
-        {
-          name = "buffer";
-          priority = 8;
-        }
-        {
-          name = "path";
-          priority = 6;
-        }
-        {
-          name = "emoji";
-          priority = 5;
-        }
-      ];
-
-      mappingPresets = ["insert" "cmdline"];
-
-      mapping = {
-        "<C-n>" = "cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert })";
-        "<C-p>" = "cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert })";
-        "<C-b>" = "cmp.mapping.scroll_docs(-4)";
-        "<C-f>" = "cmp.mapping.scroll_docs(4)";
-        "<C-Space>" = "cmp.mapping.complete()";
-        "<C-e>" = "cmp.mapping.abort()";
-        "<C-d>" = "cmp.mapping.scroll_docs(-4)";
-        "<C-u>" = "cmp.mapping.scroll_docs(4)";
-        "<CR>" = "cmp.mapping.confirm({ select = true; behavior = cmp.ConfirmBehavior.Replace; })";
-        # "<Tab>" = {
-        #   action = "cmp.mapping.select_next_item()";
-        #   modes = ["i" "s"];
-        # };
-        # "<S-Tab>" = {
-        #   action = "cmp.mapping.select_prev_item()";
-        #   modes = ["i" "s"];
-        # };
-        # "<Tab>" = {
-        #   action = ''
-        #     cmp.mapping(function(fallback)
-        #     	if cmp.visible() then
-        #     		cmp.select_next_item()
-        #     	elseif has_words_before() then
-        #     		cmp.complete()
-        #     	else
-        #     		fallback()
-        #     	end
-        #     end)
-        #   '';
-        #   modes = ["i" "s"];
-        # };
-        # "<S-Tab>" = {
-        #   action = ''
-        #     cmp.mapping(function(fallback)
-        #       if cmp.visible() then
-        #         cmp.select_prev_item()
-        #       else
-        #         fallback()
-        #       end
-        #     end)
-        #   '';
-        #   modes = ["i" "s"];
-        # };
-      };
-
-      formatting = {
-        fields = ["kind" "abbr" "menu"];
-        format = ''
-          function(entry, item)
-            if icons_kind[item.kind] then
-              item.kind = icons_kind[item.kind] .. item.kind
+              return item
             end
-            item.menu = format_menu[entry.source.name]
+          '';
+        };
 
-            local completion_context = get_lsp_completion_context(entry.completion_item, entry.source)
-            if completion_context ~= nil and completion_context ~= "" then
-              item.menu = item.menu .. " ・" .. completion_context
+        snippet = {
+          expand = ''
+            function(args)
+              require('snippy').expand_snippet(args.body)
             end
+          '';
+        };
 
-            return item
-          end
-        '';
+        preselect = "cmp.PreselectMode.None";
+
+        mapping = {
+          __raw = ''
+            cmp.mapping.preset.insert({
+              ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+              ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+              ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+              ["<C-f>"] = cmp.mapping.scroll_docs(4),
+              ["<C-Space>"] = cmp.mapping.complete(),
+              ["<C-e>"] = cmp.mapping.abort(),
+              ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+              ["<C-u>"] = cmp.mapping.scroll_docs(4),
+              ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
+              ["<Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif has_words_before() then
+                  cmp.complete()
+                else
+                  fallback()
+                end
+                end, { "i", "s" }),
+              ["<S-Tab>"] = cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                else
+                  fallback()
+                end
+              end, { "i", "s" }),
+            })
+          '';
+        };
+
+        window = {
+          completion = {
+            border = "single";
+            winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel";
+          };
+          documentation = {
+            border = "single";
+            winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel";
+          };
+        };
+
+        performance = {
+          debounce = 60;
+          fetchingTimeout = 200;
+          maxViewEntries = 30;
+        };
+      };
+
+      cmdline = {
+        "/" = {
+          mapping = {
+            __raw = "cmp.mapping.preset.cmdline()";
+          };
+          sources = {
+            __raw = ''
+              {
+                { name = "nvim_lsp_document_symbol" },
+              },
+              {
+                { name = "buffer" },
+              }
+            '';
+          };
+        };
+        "?" = {
+          mapping = {
+            __raw = "cmp.mapping.preset.cmdline()";
+          };
+          sources = {
+            __raw = ''
+              {
+                { name = "nvim_lsp_document_symbol" },
+              },
+              {
+                { name = "buffer" },
+              }
+            '';
+          };
+        };
+        ":" = {
+          sources = {
+            __raw = ''
+              {
+                { name = 'path' }
+              },
+              {
+                { name = 'cmdline' }
+              }
+            '';
+          };
+        };
+
+        filetype = {
+          "gitcommit" = {
+            sources = {
+              __raw = ''
+                {
+                  { name = 'cmp_git' },
+                },
+                {
+                  { name = 'buffer' },
+                }
+              '';
+            };
+          };
+        };
+
+        # experimental = {
+        #   experimental = {
+        #     ghost_text = true;
+        #   };
+        #   # ghost_text = {
+        #   #   hl_group = "CmpGhostText";
+        #   # };
+        # };
+
+        # preselect = "None";
+
+        # mappingPresets = ["insert" "cmdline"];
       };
     };
-
-    plugins.cmp-nvim-lsp.enable = true;
-    plugins.cmp-nvim-lsp-document-symbol.enable = true;
-    plugins.cmp-nvim-lsp-signature-help.enable = true;
-    plugins.cmp-path.enable = true;
-    plugins.cmp-buffer.enable = true;
-    plugins.cmp-emoji.enable = true;
-    plugins.cmp-cmdline.enable = true;
-    plugins.cmp-git.enable = true;
 
     extraConfigLuaPre = ''
       local icons_kind = {
@@ -206,38 +252,24 @@ in {
         --   return completion.detail
         -- end
       end
+
+      local has_words_before = function()
+        -- if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
     '';
 
-    extraConfigLua = ''
-      local cmp = require("cmp")
-
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp_document_symbol" },
-        }, {
-          { name = "buffer" },
-        }),
-      })
-
-      -- Set configuration for specific filetype.
-      cmp.setup.filetype('gitcommit', {
-        sources = cmp.config.sources({
-          { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-        }, {
-          { name = 'buffer' },
-        })
-      })
-
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(':', {
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        }),
-      })
-
-    '';
+    plugins = {
+      cmp-nvim-lsp.enable = true;
+      cmp-nvim-lsp-document-symbol.enable = true;
+      cmp-nvim-lsp-signature-help.enable = true;
+      cmp-path.enable = true;
+      cmp-buffer.enable = true;
+      cmp-emoji.enable = true;
+      cmp-cmdline.enable = true;
+      cmp-git.enable = true;
+      cmp-snippy.enable = true;
+    };
   };
 }

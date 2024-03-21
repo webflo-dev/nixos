@@ -1,0 +1,654 @@
+window {
+  background: transparent;
+}
+
+button {
+  all: unset;
+}
+
+label {
+  font-family: "system-ui";
+  font-size: 16px;
+  color: #d8e2e1;
+}
+
+.monospace {
+  font-family: "monospace";
+}
+
+#bar #date-time {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #date-time label {
+  color: #d8e2e1;
+}
+
+#bar #date-time image {
+  font-size: 1.5rem;
+  color: #ecbd10;
+}
+
+#bar #date-time .time {
+  font-weight: bold;
+}
+
+#bar #workspaces {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #workspaces label {
+  color: #d8e2e1;
+}
+
+#bar #workspaces image {
+  font-size: 1.5rem;
+  color: #626861;
+}
+
+#bar #workspaces .workspace {
+  padding: 0px 3px;
+  transition: color 0.2s ease;
+}
+
+#bar #workspaces .workspace.active image {
+  color: #ecbd10;
+}
+
+#bar #workspaces .workspace.occupied:not(.active) image {
+  color: #32b5c7;
+}
+
+#bar #system-info {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #system-info label {
+  color: #d8e2e1;
+}
+
+#bar #system-info image {
+  font-size: 1.5rem;
+  color: #7cbd27;
+}
+
+#bar #system-info .info > label {
+  font-family: "monospace";
+}
+
+#bar #system-info .info.warning {
+  color: #df7c2c;
+}
+
+#bar #system-info .info.warning image {
+  color: #df7c2c;
+}
+
+#bar #system-info .info.critical {
+  background-color: #cf3746;
+  color: #d8e2e1;
+}
+
+#bar #system-info .info.critical image {
+  color: #d8e2e1;
+}
+
+#bar #systray {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+  font-size: 1.5rem;
+}
+
+#bar #systray label {
+  color: #d8e2e1;
+}
+
+#bar #systray image {
+  font-size: 1.5rem;
+  color: #d8e2e1;
+}
+
+#bar #audio {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #audio label {
+  color: #d8e2e1;
+}
+
+#bar #audio image {
+  font-size: 1.5rem;
+  color: #ecbd10;
+}
+
+#bar #audio label {
+  font-family: "monospace";
+}
+
+#bar #audio image {
+  color: #ecbd10;
+}
+
+#bar #audio .muted > label, #bar #audio .muted > image {
+  color: #df7c2c;
+}
+
+#bar #notification-indicator button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #notification-indicator button label {
+  color: #d8e2e1;
+}
+
+#bar #notification-indicator button image {
+  font-size: 1.5rem;
+  color: #ecbd10;
+}
+
+#bar #notification-indicator image {
+  color: #ecbd10;
+}
+
+#bar #notification-indicator.empty image {
+  color: #626861;
+}
+
+#bar #notification-indicator .summary {
+  margin-left: 8px;
+}
+
+#bar #battery {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #battery label {
+  color: #d8e2e1;
+}
+
+#bar #battery image {
+  font-size: 1.5rem;
+  color: #ecbd10;
+}
+
+#bar #battery label {
+  font-family: "monospace";
+}
+
+#bar #battery image {
+  color: #ecbd10;
+}
+
+#bar #battery.low, #bar #battery.empty {
+  background-color: #cf3746;
+}
+
+#bar #battery.low label, #bar #battery.empty label {
+  color: #d8e2e1;
+}
+
+#bar #battery.low image, #bar #battery.empty image {
+  color: #d8e2e1;
+}
+
+#bar #battery.quarter {
+  background-color: #df7c2c;
+}
+
+#bar #battery.quarter label {
+  color: #292a2b;
+}
+
+#bar #battery.quarter image {
+  color: #292a2b;
+}
+
+#bar #battery.charging image {
+  color: #41a36f;
+}
+
+#bar #client-indicator {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #client-indicator label {
+  color: #d8e2e1;
+}
+
+#bar #client-indicator image {
+  font-size: 1.5rem;
+  color: #ecbd10;
+}
+
+#bar #client-indicator.xwayland {
+  border-color: #cf3746;
+}
+
+#bar #client-indicator image.indicator {
+  color: #626861;
+}
+
+#bar #client-indicator image.indicator.active {
+  color: #df7c2c;
+}
+
+#bar #screenshot-indicator {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: #df7c2c;
+}
+
+#bar #screenshot-indicator label {
+  color: #292a2b;
+}
+
+#bar #screenshot-indicator image {
+  font-size: 1.5rem;
+  color: #292a2b;
+}
+
+#bar #screen-record-indicator.selection {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: #df7c2c;
+}
+
+#bar #screen-record-indicator.selection label {
+  color: #292a2b;
+}
+
+#bar #screen-record-indicator.selection image {
+  font-size: 1.5rem;
+  color: #292a2b;
+}
+
+#bar #screen-record-indicator.recording {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: #cf3746;
+}
+
+#bar #screen-record-indicator.recording image {
+  font-size: 1.5rem;
+  color: #d8e2e1;
+}
+
+#app-launcher .app-launcher {
+  padding: 24px;
+  border: 3px solid #7cbd27;
+  border-radius: 8px;
+  background-color: #292a2b;
+}
+
+#app-launcher .app-launcher .entry {
+  margin-bottom: 12px;
+  padding: 5px;
+  background-color: #171a1f;
+}
+
+#app-launcher .app-launcher .list-container {
+  min-width: 500px;
+  min-height: 500px;
+}
+
+#app-launcher .app-launcher .app-item {
+  all: unset;
+  border-radius: 8px;
+  margin: 4px;
+}
+
+#app-launcher .app-launcher .app-item .icon {
+  margin: 4px;
+  font-size: 3rem;
+}
+
+#app-launcher .app-launcher .app-item:hover {
+  background-color: #626861;
+}
+
+#app-launcher .app-launcher .app-item:hover .title {
+  color: #d8e2e1;
+}
+
+#app-launcher .app-launcher .app-item:active, #app-launcher .app-launcher .app-item:focus, #app-launcher .app-launcher .app-item:focus {
+  background-color: #d8e2e1;
+}
+
+#app-launcher .app-launcher .app-item:active .title, #app-launcher .app-launcher .app-item:focus .title, #app-launcher .app-launcher .app-item:focus .title {
+  color: #292a2b;
+}
+
+#app-launcher .app-launcher .app-item:active:hover, #app-launcher .app-launcher .app-item:focus:hover, #app-launcher .app-launcher .app-item:focus:hover {
+  background-color: #d8e2e1;
+}
+
+#app-launcher .app-launcher .app-item:active:hover .title, #app-launcher .app-launcher .app-item:focus:hover .title, #app-launcher .app-launcher .app-item:focus:hover .title {
+  color: #292a2b;
+}
+
+#power-menu .power-menu {
+  min-width: 600px;
+  min-height: 100px;
+  border: 5px solid #626861;
+  background-color: #171a1f;
+  border-radius: 8px;
+  padding: 30px;
+}
+
+#power-menu .power-menu.selection button {
+  margin: 0px 10px;
+  border-radius: 8px;
+  color: #d8e2e1;
+  background-color: #171a1f;
+}
+
+#power-menu .power-menu.selection button.shutdown {
+  color: #cf3746;
+}
+
+#power-menu .power-menu.selection button.shutdown label {
+  color: #cf3746;
+}
+
+#power-menu .power-menu.selection button.shutdown:focus {
+  background-color: #cf3746;
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.selection button.shutdown:focus label {
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.selection button.shutdown:active {
+  background-color: #811f29;
+}
+
+#power-menu .power-menu.selection button.reboot {
+  color: #df7c2c;
+}
+
+#power-menu .power-menu.selection button.reboot label {
+  color: #df7c2c;
+}
+
+#power-menu .power-menu.selection button.reboot:focus {
+  background-color: #df7c2c;
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.selection button.reboot:focus label {
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.selection button.reboot:active {
+  background-color: #8f4c16;
+}
+
+#power-menu .power-menu.selection button.logout {
+  color: #277ab6;
+}
+
+#power-menu .power-menu.selection button.logout label {
+  color: #277ab6;
+}
+
+#power-menu .power-menu.selection button.logout:focus {
+  background-color: #277ab6;
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.selection button.logout:focus label {
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.selection button.logout:active {
+  background-color: #154262;
+}
+
+#power-menu .power-menu.confirmation button {
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+}
+
+#power-menu .power-menu.confirmation button.cancel:focus {
+  background-color: #d8e2e1;
+  color: #292a2b;
+}
+
+#power-menu .power-menu.confirmation button.cancel:focus label {
+  color: #292a2b;
+}
+
+#power-menu .power-menu.confirmation button.cancel:active {
+  background-color: #626861;
+}
+
+#power-menu .power-menu.confirmation .shutdown {
+  color: #cf3746;
+}
+
+#power-menu .power-menu.confirmation .shutdown .title > label {
+  color: #cf3746;
+}
+
+#power-menu .power-menu.confirmation .shutdown .confirm:focus {
+  background-color: #cf3746;
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.confirmation .shutdown .confirm:focus label {
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.confirmation .shutdown .confirm:active {
+  background-color: #811f29;
+}
+
+#power-menu .power-menu.confirmation .reboot {
+  color: #df7c2c;
+}
+
+#power-menu .power-menu.confirmation .reboot .title > label {
+  color: #df7c2c;
+}
+
+#power-menu .power-menu.confirmation .reboot .confirm:focus {
+  background-color: #df7c2c;
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.confirmation .reboot .confirm:focus label {
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.confirmation .reboot .confirm:active {
+  background-color: #8f4c16;
+}
+
+#power-menu .power-menu.confirmation .logout {
+  color: #277ab6;
+}
+
+#power-menu .power-menu.confirmation .logout .title > label {
+  color: #277ab6;
+}
+
+#power-menu .power-menu.confirmation .logout .confirm:focus {
+  background-color: #277ab6;
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.confirmation .logout .confirm:focus label {
+  color: #d8e2e1;
+}
+
+#power-menu .power-menu.confirmation .logout .confirm:active {
+  background-color: #154262;
+}
+
+#osd .overlay {
+  padding: 2px;
+}
+
+#osd .progress-bar {
+  margin: 8px;
+  border: 2px solid #32b5c7;
+  background-color: #171a1f;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+#osd .progress-bar image {
+  background-color: #32b5c7;
+  color: #171a1f;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  border-top: 2px solid #171a1f;
+}
+
+#osd .progress-bar .fill {
+  background-color: #32b5c7;
+  color: #171a1f;
+  border-radius: 4px 4px 0 0;
+}
+
+#osd .progress-bar.muted .fill,
+#osd .progress-bar.muted image {
+  background-color: #cf3746;
+  color: #171a1f;
+}
+
+#notification-center .notification-center {
+  min-width: 600px;
+  min-height: 600px;
+  padding: 1.5rem;
+  border: 2px solid #7cbd27;
+  border-radius: 8px;
+  background-color: #171a1f;
+  color: #d8e2e1;
+}
+
+#notification-center .header {
+  margin: 1.1rem 1rem;
+}
+
+#notification-center .header .dnd {
+  background-color: #aeb7b6;
+  color: #171a1f;
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+#notification-center .header .dnd label {
+  color: #171a1f;
+}
+
+#notification-center .header .dnd:hover {
+  background-color: #d8e2e1;
+}
+
+#notification-center .header .dnd.on {
+  color: #171a1f;
+  background-color: #7cbd27;
+}
+
+#notification-center .header .clear {
+  background-color: #aeb7b6;
+  color: #171a1f;
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+#notification-center .header .clear label {
+  color: #171a1f;
+}
+
+#notification-center .header .clear:hover {
+  background-color: #d8e2e1;
+}
+
+#notification-center .notification {
+  background-color: #262a2e;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 0.5em;
+}
+
+#notification-center .notification.critical {
+  border: 1px solid #cf3746;
+}
+
+#notification-center .notification .title {
+  color: #aeb7b6;
+  margin-bottom: 1rem;
+}
+
+#notification-center .notification .time {
+  font-weight: bold;
+  color: #aeb7b6;
+}
+
+#notification-center .notification .icon {
+  margin-right: 1rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 78px;
+  min-height: 78px;
+}
+
+#notification-center .notification .close-button {
+  margin-left: 1rem;
+  font-size: 16px;
+}
+
+#notification-center .notification .close-button:hover, #notification-center .notification .close-button:focus {
+  background-color: #cf3746;
+  border-radius: 50%;
+}
+
+#notification-center .notification .close-button:active {
+  background-color: #aa2936;
+}
+
+#notification-center .notification .actions .action {
+  margin: 1rem 0.4rem 0px 0.4rem;
+  background-color: #626861;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+#notification-center .notification .actions .action:hover {
+  background-color: #aeb7b6;
+}
+
+#notification-center .notification .actions .action:hover label {
+  color: #171a1f;
+}
