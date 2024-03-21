@@ -1,6 +1,6 @@
 // src/config.ts
 import {readFile} from "resource:///com/github/Aylur/ags/utils.js";
-import GLib4 from "gi://GLib?version=2.0";
+import GLib6 from "gi://GLib?version=2.0";
 
 // src/modules/bar/date-time.ts
 import GLib from "gi://GLib?version=2.0";
@@ -10,8 +10,13 @@ var icons_default = {
   defaultApplication: "application-default-icon",
   ui: {
     check: "_check-symbolic",
-    close: "window-close-symbolic"
+    close: "window-close-symbolic",
+    fullscreen: "_fullscreen-symbolic",
+    pinned: "_pinned-symbolic",
+    floatingWindow: "_window-floating-symbolic"
   },
+  camera: "_camera-symbolic",
+  video: "_video-symbolic",
   microphone: {
     muted: "_microphone-slash-symbolic",
     unmuted: "_microphone-symbolic"
@@ -471,6 +476,161 @@ var SystemInfo = {
   gpu,
   memory
 };
+// src/services/screenshot.ts
+var notify = function(fileName) {
+  Utils.notify({
+    iconName: fileName,
+    summary: "Screenshot",
+    body: fileName,
+    actions: {
+      "Copy image": () => {
+        Utils.execAsync(`bash -c "wl-copy --type image/png < ${fileName}"`);
+      },
+      "Copy path": () => {
+        Utils.execAsync(`wl-copy --type text/plain ${fileName}`);
+      },
+      View: () => {
+        Utils.execAsync(`imv ${fileName}`);
+      },
+      Edit: () => {
+        Utils.execAsync(`satty --filename ${fileName} --output-filename ${fileName.replace("screenshot_", "satty_")}`);
+      },
+      Delete: () => {
+        Utils.execAsync(`rm ${fileName}`);
+      }
+    }
+  });
+};
+async function takeScreenshot() {
+  try {
+    screenshot.value = { busy: true, fileName: "", error: "" };
+    const fileName = await Utils.execAsync(`${App.configDir}/scripts/screenshot.sh`);
+    screenshot.value = fileName ? { busy: false, fileName, error: "" } : { busy: false, fileName, error: "" };
+    notify(fileName);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error, null, 2);
+    console.error(`screenshot: ${errorMessage}`);
+    screenshot.value = { busy: false, fileName: "", error: errorMessage };
+  }
+}
+var screenshot = Variable({
+  busy: false,
+  fileName: "",
+  error: ""
+});
+var Screenshot = Object.assign(screenshot, {
+  screenshot: takeScreenshot,
+  takeScreenshot
+});
+// src/services/screen-record.ts
+import GLib3 from "gi://GLib";
+var sendNotification = function(fileName) {
+  Utils.notify({
+    iconName: fileName,
+    summary: "Screen record",
+    body: fileName,
+    actions: {
+      "Copy path": () => {
+        Utils.execAsync(`wl-copy --type text/plain ${fileName}`);
+      },
+      View: () => {
+        Utils.execAsync(`mpv ${fileName}`);
+      },
+      Delete: () => {
+        Utils.execAsync(`rm ${fileName}`);
+      }
+    }
+  });
+};
+var update = function(values) {
+  screenRecord.setValue({
+    ...screenRecord.value,
+    ...values
+  });
+};
+var toggle = function() {
+  if (watcher?.is_listening) {
+    stop();
+  } else {
+    start();
+  }
+};
+async function stop() {
+  await Utils.execAsync(`${App.configDir}/scripts/screen-record.sh stop`);
+}
+var start = function() {
+  let timerInterval;
+  if (watcher) {
+    watcher.dispose();
+    screenRecord.setValue(DEFAULT_VALUES);
+  }
+  watcher = Variable(undefined, {
+    listen: [
+      `${App.configDir}/scripts/screen-record.sh start`,
+      (output) => {
+        const [action, data] = output.split(" ");
+        switch (action) {
+          case "selection":
+            {
+              screenRecord.setValue({
+                recording: true,
+                timer: -1,
+                action,
+                data
+              });
+              if (data === "cancelled") {
+                watcher?.stopListen();
+                screenRecord.setValue({
+                  recording: false,
+                  timer: -1,
+                  action,
+                  data
+                });
+              }
+            }
+            break;
+          case "recording":
+            {
+              screenRecord.setValue({
+                recording: true,
+                timer: 0,
+                action,
+                data
+              });
+              let timer = 0;
+              timerInterval = Utils.interval(1000, () => {
+                update({ timer });
+                timer++;
+              });
+            }
+            break;
+          case "done":
+            {
+              watcher?.dispose();
+              watcher = undefined;
+              if (timerInterval) {
+                GLib3.source_remove(timerInterval);
+              }
+              update({ recording: false, timer: -1, action, data });
+              sendNotification(data);
+            }
+            break;
+        }
+      }
+    ]
+  });
+};
+var DEFAULT_VALUES = {
+  recording: false,
+  timer: -1
+};
+var screenRecord = Variable(DEFAULT_VALUES);
+var watcher;
+var Screenrecord = Object.assign(screenRecord, {
+  stop,
+  start,
+  toggle
+});
 // src/modules/bar/system-info.ts
 var getLevel = function(value) {
   const current = Number(value);
@@ -652,8 +812,11 @@ var BatteryIcon = function() {
   });
 };
 var PowerProfile = function() {
+  if (powerProfiles === undefined) {
+    return Widget.Box();
+  }
   const menu = Widget.Menu({
-    children: powerProfiles.bind("profiles").as((profiles) => {
+    children: powerProfiles?.bind("profiles").as((profiles) => {
       return profiles.map((profile) => {
         return Widget.MenuItem({
           onActivate: () => {
@@ -715,19 +878,146 @@ function Battery() {
 var battery = await Service.import("battery");
 var powerProfiles = await Service.import("powerprofiles");
 
+// src/modules/bar/mpris.ts
+function Mpris() {
+  return Widget.Button({
+    class_name: "media",
+    on_primary_click: () => mpris.getPlayer("")?.playPause(),
+    on_scroll_up: () => mpris.getPlayer("")?.next(),
+    on_scroll_down: () => mpris.getPlayer("")?.previous(),
+    child: Widget.Label("-").hook(mpris, (self) => {
+      if (mpris.players[0]) {
+        const { track_artists, track_title } = mpris.players[0];
+        self.label = `${track_artists.join(", ")} - ${track_title}`;
+      } else {
+        self.label = "Nothing is playing";
+      }
+    }, "player-changed")
+  });
+}
+var mpris = await Service.import("mpris");
+
+// src/modules/bar/client-indicator.ts
+var Indicator = function(icon, className) {
+  return Widget.Icon({
+    classNames: ["indicator", className],
+    icon
+  });
+};
+function ClientIndicator() {
+  const fullscreen = Indicator(icons_default.ui.fullscreen, "fullscreen");
+  const pinned = Indicator(icons_default.ui.pinned, "pinned");
+  const floating = Indicator(icons_default.ui.floatingWindow, "floating");
+  return Widget.Box({
+    name: "client-indicator",
+    spacing: 8,
+    children: [fullscreen, floating, pinned]
+  }).hook(hyprland2.active.client, (self) => {
+    const client = hyprland2.getClient(hyprland2.active.client.address);
+    if (!client)
+      return;
+    self.toggleClassName("xwayland", client.xwayland);
+    fullscreen.toggleClassName("active", client.fullscreen);
+    floating.toggleClassName("active", client.floating);
+    pinned.toggleClassName("active", client.pinned);
+  }).hook(hyprland2, (self, name, data) => {
+    switch (name) {
+      case "fullscreen":
+        {
+          const client = hyprland2.getClient(hyprland2.active.client.address);
+          if (!client)
+            return;
+          fullscreen.toggleClassName("active", data === "1");
+        }
+        break;
+      case "changefloatingmode":
+        {
+          const [address, mode] = data.split(",");
+          const client = hyprland2.getClient(`0x${address}`);
+          if (!client)
+            return;
+          floating.toggleClassName("active", mode === "1");
+        }
+        break;
+    }
+  }, "event");
+}
+var hyprland2 = await Service.import("hyprland");
+
+// src/modules/bar/screenshot-indicator.ts
+function ScreenshotIndicator() {
+  return Widget.Box({
+    name: "screenshot-indicator",
+    spacing: 8,
+    visible: Screenshot.bind().as(({ busy }) => busy),
+    children: [
+      Widget.Icon({
+        icon: icons_default.camera
+      })
+    ]
+  });
+}
+
+// src/modules/bar/screen-record-indicator.ts
+var humanReadableTimer = function(timer) {
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+function ScreenrecordIndicator() {
+  const label = Widget.Label();
+  return Widget.Button({
+    name: "screen-record-indicator",
+    onClicked: () => {
+      Screenrecord.stop();
+    },
+    child: Widget.Box({
+      spacing: 8,
+      children: [
+        Widget.Icon({
+          icon: icons_default.video
+        }),
+        label
+      ]
+    })
+  }).hook(Screenrecord, (self) => {
+    const { recording, timer, action } = Screenrecord.value;
+    self.class_name = action || "";
+    if (recording) {
+      self.visible = true;
+      if (timer === -1) {
+        label.visible = false;
+      } else {
+        label.visible = true;
+        label.label = humanReadableTimer(timer);
+      }
+    } else {
+      self.visible = false;
+      label.label = "";
+    }
+  });
+}
+
 // src/modules/bar/index.ts
 var StartWidget = () => Widget.Box({
   className: "left",
   spacing: 8,
-  children: [Workspaces()]
+  children: [
+    Workspaces(),
+    ClientIndicator(),
+    Mpris(),
+    Widget.Box({
+      hpack: "end",
+      hexpand: true,
+      children: [ScreenshotIndicator(), ScreenrecordIndicator()]
+    })
+  ]
 });
 var CenterWidget = () => Widget.Box({
   spacing: 8,
   className: "middle",
   hpack: "center",
-  children: [
-    DateTime()
-  ]
+  children: [DateTime()]
 });
 var EndWidget = () => Widget.Box({
   className: "right",
@@ -1138,9 +1428,9 @@ var VolumeOSD = () => Widget.Window({
   })
 });
 // src/modules/notification-center/index.ts
-import GLib3 from "gi://GLib";
+import GLib5 from "gi://GLib";
 var time = function(time2, format = "%H:%M") {
-  return GLib3.DateTime.new_from_unix_local(time2).format(format);
+  return GLib5.DateTime.new_from_unix_local(time2).format(format);
 };
 var Header = function() {
   const dndButton = Widget.Button({
@@ -1343,7 +1633,7 @@ var NotificationCenter = () => {
 };
 
 // src/config.ts
-async function start() {
+async function start2() {
   App.addIcons(App.configDir + "/icons");
   App.applyCss(App.configDir + "/config.css");
   App.config({
@@ -1357,6 +1647,8 @@ async function start() {
   });
   globalThis.ags = { App };
   globalThis.powermenu = { toggle: togglePowerMenu };
+  globalThis.screenshot = Screenshot;
+  globalThis.screenrecord = Screenrecord;
 }
 var checkVersion = function() {
   print("checking version...");
@@ -1367,12 +1659,12 @@ var checkVersion = function() {
     return {};
   } else {
     print("version OK");
-    start();
+    start2();
   }
 };
 var agsVersion = readFile(App.configDir + "/ags-version.txt");
 var pkgVersion = pkg.version;
-var skipCheck = GLib4.getenv("SKIP_CHECK") === "true";
+var skipCheck = GLib6.getenv("SKIP_CHECK") === "true";
 print(`expected AGS version: [${agsVersion}]`);
 print(`current AGS version: [${pkgVersion}]`);
 print(`skip check: ${skipCheck}`);

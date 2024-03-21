@@ -23,12 +23,12 @@ label {
   background-color: rgba(23, 26, 31, 0.85);
 }
 
-#bar #date-time image {
-  font-size: 1.5rem;
-  color: #ecbd10;
+#bar #date-time label {
+  color: #d8e2e1;
 }
 
 #bar #date-time image {
+  font-size: 1.5rem;
   color: #ecbd10;
 }
 
@@ -43,18 +43,18 @@ label {
   background-color: rgba(23, 26, 31, 0.85);
 }
 
+#bar #workspaces label {
+  color: #d8e2e1;
+}
+
 #bar #workspaces image {
   font-size: 1.5rem;
-  color: #ecbd10;
+  color: #626861;
 }
 
 #bar #workspaces .workspace {
   padding: 0px 3px;
   transition: color 0.2s ease;
-}
-
-#bar #workspaces .workspace image {
-  color: #626861;
 }
 
 #bar #workspaces .workspace.active image {
@@ -72,17 +72,17 @@ label {
   background-color: rgba(23, 26, 31, 0.85);
 }
 
+#bar #system-info label {
+  color: #d8e2e1;
+}
+
 #bar #system-info image {
   font-size: 1.5rem;
-  color: #ecbd10;
+  color: #7cbd27;
 }
 
 #bar #system-info .info > label {
   font-family: "monospace";
-}
-
-#bar #system-info .info image {
-  color: #41a36f;
 }
 
 #bar #system-info .info.warning {
@@ -110,9 +110,13 @@ label {
   font-size: 1.5rem;
 }
 
+#bar #systray label {
+  color: #d8e2e1;
+}
+
 #bar #systray image {
   font-size: 1.5rem;
-  color: #ecbd10;
+  color: #d8e2e1;
 }
 
 #bar #audio {
@@ -120,6 +124,10 @@ label {
   border-radius: 8px;
   border: 1px solid #626861;
   background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #audio label {
+  color: #d8e2e1;
 }
 
 #bar #audio image {
@@ -146,6 +154,10 @@ label {
   background-color: rgba(23, 26, 31, 0.85);
 }
 
+#bar #notification-indicator button label {
+  color: #d8e2e1;
+}
+
 #bar #notification-indicator button image {
   font-size: 1.5rem;
   color: #ecbd10;
@@ -168,6 +180,10 @@ label {
   border-radius: 8px;
   border: 1px solid #626861;
   background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #battery label {
+  color: #d8e2e1;
 }
 
 #bar #battery image {
@@ -209,6 +225,78 @@ label {
 
 #bar #battery.charging image {
   color: #41a36f;
+}
+
+#bar #client-indicator {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: rgba(23, 26, 31, 0.85);
+}
+
+#bar #client-indicator label {
+  color: #d8e2e1;
+}
+
+#bar #client-indicator image {
+  font-size: 1.5rem;
+  color: #ecbd10;
+}
+
+#bar #client-indicator.xwayland {
+  border-color: #cf3746;
+}
+
+#bar #client-indicator image.indicator {
+  color: #626861;
+}
+
+#bar #client-indicator image.indicator.active {
+  color: #df7c2c;
+}
+
+#bar #screenshot-indicator {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: #df7c2c;
+}
+
+#bar #screenshot-indicator label {
+  color: #292a2b;
+}
+
+#bar #screenshot-indicator image {
+  font-size: 1.5rem;
+  color: #292a2b;
+}
+
+#bar #screen-record-indicator.selection {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: #df7c2c;
+}
+
+#bar #screen-record-indicator.selection label {
+  color: #292a2b;
+}
+
+#bar #screen-record-indicator.selection image {
+  font-size: 1.5rem;
+  color: #292a2b;
+}
+
+#bar #screen-record-indicator.recording {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #626861;
+  background-color: #cf3746;
+}
+
+#bar #screen-record-indicator.recording image {
+  font-size: 1.5rem;
+  color: #d8e2e1;
 }
 
 #app-launcher .app-launcher {
