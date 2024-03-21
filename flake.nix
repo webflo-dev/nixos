@@ -77,6 +77,12 @@
           ++ [./hosts/${hostName}]
           ++ [
             {
+              nix.registry.nixpkgs.flake = nixpkgs;
+              nix.nixPath = ["nixpkgs=flake:nixpkgs"];
+            }
+          ]
+          ++ [
+            {
               nixpkgs.config.permittedInsecurePackages = [
                 "nix-2.16.2"
               ];
@@ -95,6 +101,12 @@
         extraSpecialArgs = {inherit inputs;};
         modules =
           (homeManagerSharedModules hostName)
+          ++ [
+            {
+              nix.registry.nixpkgs.flake = nixpkgs;
+              home.sessionVariables.NIX_PATH = "nixpkgs=flake:nixpkgs$\{NIX_PATH:+:$NIX_PATH}";
+            }
+          ]
           ++ [(homeManagerUserModule {inherit hostName username uid;})];
       };
   in {
