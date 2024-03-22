@@ -44,73 +44,27 @@
     home-manager,
     agenix,
     ...
-  } @ inputs: let
-    inherit (nixpkgs) lib;
-    inherit
-      (import ./lib {inherit lib;})
-      modules
-      nixosSystemModule
-      mkNixosConfigurations
-      mkHomeManagerConfigurations
-      homeManagerUserModule
-      ;
-
-    homeManagerSharedModules = hostName:
-      (modules "home-manager")
-      ++ (modules "webflo/home-manager")
-      ++ [./hosts/${hostName}/users];
-
-    hosts = import ./hosts;
-
-    mkNixosSystem = {
-      hostName,
-      users,
-      ...
-    }:
-      nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-        modules =
-          (modules "defaults")
-          ++ (modules "system")
-          ++ [{home-manager.sharedModules = homeManagerSharedModules hostName;}]
-          ++ [(nixosSystemModule {inherit hostName users;})]
-          ++ [./hosts/${hostName}]
-          ++ [
-            {
-              nix.registry.nixpkgs.flake = nixpkgs;
-              nix.nixPath = ["nixpkgs=flake:nixpkgs"];
-            }
-          ]
-          ++ [
-            {
-              nixpkgs.config.permittedInsecurePackages = [
-                "nix-2.16.2"
-              ];
-            }
-          ];
-      };
-
-    mkHomeManagerConfiguration = {
-      hostName,
-      username,
-      uid,
-      ...
-    }:
-      inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {system = "x86_64-linux";};
-        extraSpecialArgs = {inherit inputs;};
-        modules =
-          (homeManagerSharedModules hostName)
-          ++ [
-            {
-              nix.registry.nixpkgs.flake = nixpkgs;
-              home.sessionVariables.NIX_PATH = "nixpkgs=flake:nixpkgs$\{NIX_PATH:+:$NIX_PATH}";
-            }
-          ]
-          ++ [(homeManagerUserModule {inherit hostName username uid;})];
-      };
-  in {
-    nixosConfigurations = mkNixosConfigurations mkNixosSystem hosts;
-    homeConfigurations = mkHomeManagerConfigurations mkHomeManagerConfiguration hosts;
+  } @ inputs: {
+    nixosConfigurations =
+      builtins.mapAttrs (
+        hostName: _: let
+          hostUsers = import ./hosts/${hostName}/users.nix;
+        in
+          nixpkgs.lib.nixosSystem {
+            specialArgs = {inherit inputs hostName hostUsers;};
+            modules = [
+              inputs.nixvim.nixosModules.nixvim
+              ./modules/nixos
+              ./modules/home-manager.nix
+              ./hosts/${hostName}/nixos.nix
+              {
+                nixpkgs.config.permittedInsecurePackages = [
+                  "nix-2.16.2"
+                ];
+              }
+            ];
+          }
+      )
+      (builtins.readDir ./hosts);
   };
 }

@@ -1,6 +1,10 @@
 {pkgs, ...}: {
   home.stateVersion = "23.11";
 
+  imports = [
+    ../../users-settings.nix
+  ];
+
   webflo.modules = {
     ags.enable = true;
     binaries.enable = true;
@@ -20,7 +24,6 @@
     ranger.enable = true;
     starship.enable = true;
     vscode.enable = true;
-    xdg.enable = true;
     zsh.enable = true;
   };
 
