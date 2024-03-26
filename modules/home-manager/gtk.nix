@@ -17,12 +17,7 @@ in {
       gtk4
     ];
 
-    home.pointerCursor = {
-      gtk.enable = true;
-      package = pkgs.apple-cursor;
-      name = "macOS-Monterey";
-      size = 24;
-    };
+    home.pointerCursor.gtk.enable = true;
 
     gtk = {
       enable = true;
@@ -51,10 +46,10 @@ in {
       };
 
       gtk3 = {
-        bookmarks = [
-          "file://${config.home.homeDirectory}/Pictures/screenshots"
-          "file://${config.home.homeDirectory}/Videos/recording"
-          "file://${config.home.homeDirectory}/Downloads"
+        bookmarks = with config.home; [
+          "file://${homeDirectory}/Pictures/screenshots"
+          "file://${homeDirectory}/Videos/recording"
+          "file://${homeDirectory}/Downloads"
         ];
         extraConfig = {
           gtk-application-prefer-dark-theme = 1;

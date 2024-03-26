@@ -53,8 +53,7 @@
           nixpkgs.lib.nixosSystem {
             specialArgs = {inherit inputs hostName hostUsers;};
             modules = [
-              inputs.nixvim.nixosModules.nixvim
-              ./modules/nixos
+              ./modules/nixos.nix
               ./modules/home-manager.nix
               ./hosts/${hostName}/nixos.nix
               {

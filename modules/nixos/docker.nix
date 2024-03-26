@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  hostUsers,
   ...
 }: let
   cfg = config.webflo.modules.docker;
@@ -15,6 +14,10 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
+      virtualisation.oci-containers = {
+        backend = "docker";
+      };
+
       virtualisation.docker = {
         enable = true;
         daemon.settings = {
@@ -30,7 +33,7 @@ in {
         };
       };
 
-      users.groups."docker".members = builtins.attrNames hostUsers;
+      users.groups.docker.members = config.users.groups.wheel.members;
 
       environment.systemPackages = with pkgs; [
         docker

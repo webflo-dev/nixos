@@ -52,7 +52,7 @@ in {
             kb_layout = "fr";
             repeat_delay = 200;
             repeat_rate = 25;
-            follow_mouse = true;
+            follow_mouse = 2;
             touchpad = {
               natural_scroll = false;
             };
@@ -300,6 +300,8 @@ in {
 
           windowrulev2 = [
             # "float, class:^(eww)$"
+
+            "float, class:^(com.github.Aylur.ags)$"
 
             "float,class:^(floating_terminal)$"
             "move center,class:^(floating_terminal)$"

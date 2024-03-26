@@ -10,6 +10,7 @@
     ./zsh
     ./cli-tools.nix
     ./codium.nix
+    ./cursor.nix
     ./git.nix
     ./gtk.nix
     ./hyprland.nix

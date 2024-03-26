@@ -18,10 +18,7 @@ in {
       trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
 
-    programs.hyprland = {
-      enable = true;
-      # enableNvidiaPatches = nvidiaCfg.enable;
-    };
+    programs.hyprland.enable = true;
 
     xdg.portal = {
       enable = true;
@@ -29,8 +26,6 @@ in {
         xdg-desktop-portal-gtk
       ];
     };
-
-    services.pipewire.enable = true;
 
     environment.systemPackages = with pkgs; [
       # grim

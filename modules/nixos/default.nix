@@ -1,13 +1,10 @@
 {
-  pkgs,
-  hostUsers,
-  ...
-}: {
   imports = [
-    ../defaults/nixos
+    ./yubikey
     ./bluetooth.nix
     ./development.nix
     ./docker.nix
+    ./fhs.nix
     ./fingerprint.nix
     ./fonts.nix
     ./hyprland.nix
@@ -17,18 +14,4 @@
     ./thunar.nix
     ./video.nix
   ];
-
-  programs.zsh.enable = true;
-
-  users.users =
-    builtins.mapAttrs (
-      username: uid: {
-        isNormalUser = true;
-        extraGroups = ["networkmanager" "wheel"];
-        shell = pkgs.zsh;
-        home = "/home/${username}";
-        inherit uid;
-      }
-    )
-    hostUsers;
 }
