@@ -14,7 +14,7 @@
     gtk.enable = true;
     hyprland = {
       enable = true;
-      wallpaper = ./wallpapers/house_by_the_lake_drawing-wallpaper-1920x1200.jpg;
+      defaultWallpaper = ./wallpapers/house_by_the_lake_drawing-wallpaper-1920x1200.jpg;
     };
     kitty.enable = true;
     mimeApps.enable = true;
