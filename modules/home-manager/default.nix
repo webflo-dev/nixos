@@ -16,7 +16,6 @@
     ./gtk.nix
     ./kitty.nix
     ./mime-apps.nix
-    ./npm.nix
     ./starship.nix
     ./webflo-settings.nix
   ];

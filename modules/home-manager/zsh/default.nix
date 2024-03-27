@@ -77,9 +77,6 @@ in {
         words = "rg --pretty --with-filename --hidden --follow -g '!.git'";
         files = "fd --type f --hidden --follow --exclude.git";
 
-        startx = "startx \$XDG_CONFIG_HOME/X11/xinitrc";
-        startw = "Hyprland";
-
         wget = "wget --hsts-file='\$XDG_DATA_HOME/wget-hsts'";
         du = "gdu";
 
@@ -91,11 +88,11 @@ in {
       };
 
       plugins = [
-        # {
-        #   name = "zsh-nix-shell";
-        #   file = "nix-shell.plugin.zsh";
-        #   src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
-        # }
+        {
+          name = "zsh-nix-shell";
+          file = "nix-shell.plugin.zsh";
+          src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
+        }
         {
           name = "fzf-tab";
           src = pkgs.fetchFromGitHub {

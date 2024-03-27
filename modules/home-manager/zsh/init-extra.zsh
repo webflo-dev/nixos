@@ -25,7 +25,7 @@ unsetopt  FLOW_CONTROL
 # Expansion and Globbing
 setopt    GLOB_DOTS
 setopt    EXTENDED_GLOB
-setopt    NOMATCH
+unsetopt    NOMATCH
 
 # History
 setopt    BANG_HIST

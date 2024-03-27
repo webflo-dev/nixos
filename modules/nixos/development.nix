@@ -23,17 +23,5 @@ in {
         }
       )
       (builtins.attrNames hostUsers);
-
-    environment.systemPackages = with pkgs; [
-      inotify-tools
-    ];
-
-    programs = {
-      direnv = {
-        enable = true;
-        loadInNixShell = true;
-        nix-direnv.enable = true;
-      };
-    };
   };
 }

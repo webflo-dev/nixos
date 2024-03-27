@@ -11,10 +11,6 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  # environment.systemPackages = [
-  #   pkgs.home-manager
-  # ];
-
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
     useGlobalPkgs = true;
@@ -38,7 +34,6 @@
 
         home = {
           inherit username;
-          # homeDirectory = "/home/${username}";
           homeDirectory = config.users.users.${username}.home;
         };
 

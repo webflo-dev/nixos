@@ -188,11 +188,5 @@ in {
         "typescript.updateImportsOnFileMove.enabled" = "always";
       };
     };
-
-    # programs.zsh = {
-    #   shellAliases = {
-    #     "code" = "codium";
-    #   };
-    # };
   };
 }
