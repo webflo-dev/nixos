@@ -26,10 +26,6 @@ in {
 
     environment.systemPackages = with pkgs; [
       inotify-tools
-      nixd
-      nil
-      statix
-      alejandra
     ];
 
     programs = {

@@ -30,10 +30,14 @@
     fhs.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    slack
-    _1password-gui
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      light
+    ]
+    ++ [
+      slack
+      _1password-gui
+    ];
 
   # Need to check TLP configuration
   # services = {
