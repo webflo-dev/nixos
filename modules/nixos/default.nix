@@ -13,5 +13,6 @@
     ./pipewire.nix
     ./thunar.nix
     ./video.nix
+    ./virtualisation.nix
   ];
 }

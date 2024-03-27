@@ -35,7 +35,8 @@ function start(){
 }
 
 function stop(){
-  killall -s SIGINT wf-recorder
+  # killall -s SIGINT wf-recorder
+  pkill --signal SIGINT wf-recorder
   hyprctl reload &> /dev/null
 }
 

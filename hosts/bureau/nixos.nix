@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  hostUsers,
   ...
 }: {
   system.stateVersion = "23.11";
@@ -22,14 +21,13 @@
     hyprland.enable = true;
     development.enable = true;
     docker.enable = true;
+    virtualisation.enable = true;
+    fhs.enable = true;
   };
 
   environment.systemPackages = with pkgs;
     [
-      udiskie
-      mpv
       appimage-run
-      niri
     ]
     ++ [
       slack

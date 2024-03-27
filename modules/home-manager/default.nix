@@ -3,6 +3,7 @@
     ./ags
     ./binaries
     ./fonts
+    ./hyprland
     ./neofetch
     ./neovim
     ./pulsemixer
@@ -13,7 +14,6 @@
     ./cursor.nix
     ./git.nix
     ./gtk.nix
-    ./hyprland.nix
     ./kitty.nix
     ./mime-apps.nix
     ./npm.nix

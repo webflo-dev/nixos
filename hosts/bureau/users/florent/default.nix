@@ -14,7 +14,7 @@
     gtk.enable = true;
     hyprland = {
       enable = true;
-      wallpaper = ./wallpapers/mountain-3840x2160.jpg;
+      defaultWallpaper = ./wallpapers/mountain-3840x2160.jpg;
     };
     kitty.enable = true;
     mimeApps.enable = true;
@@ -25,6 +25,14 @@
     starship.enable = true;
     vscode.enable = true;
     zsh.enable = true;
+  };
+
+  services = {
+    udiskie.enable = true;
+  };
+
+  programs = {
+    mpv.enable = true;
   };
 
   home.packages = with pkgs; [
