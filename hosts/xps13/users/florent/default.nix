@@ -27,6 +27,14 @@
     zsh.enable = true;
   };
 
+  services = {
+    udiskie.enable = true;
+  };
+
+  programs = {
+    mpv.enable = true;
+  };
+
   home.packages = with pkgs; [
     # CLI
     croc

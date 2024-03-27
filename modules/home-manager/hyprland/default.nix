@@ -27,8 +27,6 @@ in {
       enable = true;
       xwayland.enable = true;
 
-      sourceFirst = true;
-
       settings = {
         "$colors_red" = "rgb(CF3746)";
         "$colors_orange" = "rgb(DF7C2C)";
@@ -101,7 +99,7 @@ in {
           drop_shadow = false;
           shadow_range = 30;
           shadow_render_power = 3;
-          col.shadow = "0x66000000";
+          "col.shadow" = "0x66000000";
         };
 
         group = {
@@ -123,10 +121,10 @@ in {
         general = {
           allow_tearing = false;
           border_size = 4;
-          col.active_border = "$colors_acccent_color";
-          col.inactive_border = "$colors_dark";
-          col.nogroup_border = "0xffffffff";
-          col.nogroup_border_active = "0xffff00ff";
+          "col.active_border" = "$colors_acccent_color";
+          "col.inactive_border" = "$colors_dark";
+          "col.nogroup_border" = "0xffffffff";
+          "col.nogroup_border_active" = "0xffff00ff";
           extend_border_grab_area = 15;
           gaps_in = 10;
           gaps_out = 20;
@@ -142,11 +140,11 @@ in {
           "SUPER, D, exec, ags toggle-window app-launcher "
           "SUPER SHIFT, Escape, exec, ags -r 'powermenu.toggle()'"
 
-          "XF86AudioPlay,exec,playerctl play-pause"
-          "XF86AudioPause,exec,playerctl play-pause"
-          "XF86AudioNext,exec,playerctl next "
-          "XF86AudioPrev,exec,playerctl prev"
-          "XF86AudioMute,exec, volume --toggle"
+          ",XF86AudioPlay,exec,playerctl play-pause"
+          ",XF86AudioPause,exec,playerctl play-pause"
+          ",XF86AudioNext,exec,playerctl next "
+          ",XF86AudioPrev,exec,playerctl prev"
+          ",XF86AudioMute,exec, volume --toggle"
           "SHIFT,XF86AudioMute,exec, volume --toggle-mic"
 
           ",Print,exec, ags -r 'screenshot.screenshot()' "

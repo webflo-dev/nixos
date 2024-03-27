@@ -18,22 +18,19 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      ### Build
-      sassc
-      bun
-
       ### tools
-      jq
       slurp
       wf-recorder
       wl-clipboard
-      imv
       grim
-      mpv
       satty
       # swappy
-      killall
     ];
+
+    programs = {
+      imv.enable = true;
+      jq.enable = true;
+    };
 
     programs.ags = {
       enable = true;
